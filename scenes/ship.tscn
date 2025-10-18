@@ -1,12 +1,13 @@
-[gd_scene load_steps=9 format=4 uid="uid://dxvyt3ebbupn5"]
+[gd_scene load_steps=11 format=4 uid="uid://dxvyt3ebbupn5"]
 
-[ext_resource type="Script" path="res://ship.gd" id="1_6g4xn"]
+[ext_resource type="Script" uid="uid://bumeels1hlalx" path="res://ship.gd" id="1_6g4xn"]
 [ext_resource type="Texture2D" uid="uid://ch1rsdy1h7lwe" path="res://assets/Free Battle Spaceship 3D Models/T_Spase_64.png" id="2_hwpqy"]
+[ext_resource type="PackedScene" uid="uid://bbitwid1b83pw" path="res://scenes/ship_aim_controller.tscn" id="3_4tobq"]
+[ext_resource type="PackedScene" uid="uid://b51e7r7mxxdut" path="res://scenes/ship_hud.tscn" id="4_tfsc7"]
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_x6a12"]
 resource_name = "Spaceship_mat"
 vertex_color_use_as_albedo = true
-albedo_color = Color(1, 1, 1, 1)
 albedo_texture = ExtResource("2_hwpqy")
 emission_enabled = true
 
@@ -77,6 +78,7 @@ mesh = SubResource("BoxMesh_m2u1d")
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 5.34087, -0.260211)
 
 [node name="CanvasLayer" type="CanvasLayer" parent="."]
+visible = false
 
 [node name="Hud" type="Label" parent="CanvasLayer"]
 offset_right = 40.0
@@ -104,3 +106,10 @@ offset_bottom = 94.0
 text = "Ship Aim:"
 
 [node name="Node3D" type="Node3D" parent="."]
+
+[node name="ShipAimController" parent="." instance=ExtResource("3_4tobq")]
+
+[node name="ShipHud" parent="." instance=ExtResource("4_tfsc7")]
+global_debug = true
+aim_outline_width = 0.5
+aim_controller_path = NodePath("../ShipAimController")

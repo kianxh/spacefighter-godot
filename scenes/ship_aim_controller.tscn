@@ -1,0 +1,6 @@
+[gd_scene load_steps=2 format=3 uid="uid://bbitwid1b83pw"]
+
+[ext_resource type="Script" uid="uid://pskmqt5vu2jl" path="res://ship_aim_controller.gd" id="1_mke5y"]
+
+[node name="ShipAimController" type="Node"]
+script = ExtResource("1_mke5y")

@@ -1,0 +1,19 @@
+[gd_scene load_steps=3 format=3 uid="uid://rmg1inhe0lg"]
+
+[ext_resource type="PackedScene" uid="uid://bbitwid1b83pw" path="res://scenes/ship_aim_controller.tscn" id="1_fo1ae"]
+[ext_resource type="PackedScene" uid="uid://b51e7r7mxxdut" path="res://scenes/ship_hud.tscn" id="2_xruoy"]
+
+[node name="ShipHudTest" type="Node3D"]
+
+[node name="ShipAimController" parent="." instance=ExtResource("1_fo1ae")]
+min_roll_radius = 30.0
+max_roll_radius = 200.0
+
+[node name="ShipHud" parent="." instance=ExtResource("2_xruoy")]
+global_debug = true
+aim_outline_width = 0.5
+aim_outline_color_primary = Color(1, 1, 1, 1)
+aim_outline_color_secondary = Color(1, 1, 1, 1)
+aim_controller_path = NodePath("../ShipAimController")
+
+[node name="Camera3D" type="Camera3D" parent="."]
