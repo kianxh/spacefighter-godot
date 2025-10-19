@@ -1,0 +1,46 @@
+[gd_scene load_steps=7 format=3 uid="uid://v6upa3uxrmvh"]
+
+[ext_resource type="Script" uid="uid://bv86xpkfmalyq" path="res://rigid_body_3d.gd" id="1_22c4a"]
+
+[sub_resource type="ProceduralSkyMaterial" id="ProceduralSkyMaterial_22c4a"]
+sky_horizon_color = Color(0.66224277, 0.6717428, 0.6867428, 1)
+ground_horizon_color = Color(0.66224277, 0.6717428, 0.6867428, 1)
+
+[sub_resource type="Sky" id="Sky_bhlru"]
+sky_material = SubResource("ProceduralSkyMaterial_22c4a")
+
+[sub_resource type="Environment" id="Environment_sg1tf"]
+background_mode = 2
+sky = SubResource("Sky_bhlru")
+tonemap_mode = 2
+glow_enabled = true
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_bhlru"]
+
+[sub_resource type="BoxMesh" id="BoxMesh_sg1tf"]
+
+[node name="TorqueCube" type="Node3D"]
+
+[node name="WorldEnvironment" type="WorldEnvironment" parent="."]
+environment = SubResource("Environment_sg1tf")
+
+[node name="DirectionalLight3D" type="DirectionalLight3D" parent="."]
+transform = Transform3D(-0.8660254, -0.43301278, 0.25, 0, 0.49999997, 0.86602545, -0.50000006, 0.75, -0.43301266, 0, 0, 0)
+shadow_enabled = true
+
+[node name="RigidBody3D" type="RigidBody3D" parent="."]
+gravity_scale = 0.0
+script = ExtResource("1_22c4a")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="RigidBody3D"]
+shape = SubResource("BoxShape3D_bhlru")
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="RigidBody3D"]
+mesh = SubResource("BoxMesh_sg1tf")
+
+[node name="Camera3D" type="Camera3D" parent="."]
+transform = Transform3D(0.72288275, -0.33286712, 0.605508, 0, 0.8763152, 0.48173845, -0.6909708, -0.3482404, 0.6334731, 3, 3, 3)
+
+[node name="Label" type="Label" parent="."]
+offset_right = 40.0
+offset_bottom = 23.0

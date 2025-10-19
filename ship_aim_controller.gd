@@ -60,8 +60,6 @@ func get_aim_direction() -> Vector2:
 func is_outside_deadzone() -> bool:
 	return _aim_vec.length() >= min_roll_radius
 
-#func get_aim_strength() -> float:
-	#return clamp(_aim_vec.length() / max(max_roll_radius, 0.001), 0.0, 1.0)
 
 func get_aim_strength() -> float:
 	# Distance of the cursor from center

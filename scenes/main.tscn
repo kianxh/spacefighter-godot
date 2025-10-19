@@ -26,3 +26,5 @@ shadow_enabled = true
 
 [node name="Ship" parent="." instance=ExtResource("1_el11a")]
 transform = Transform3D(-0.525308, 0, 0.850912, 0, 1, 0, -0.850912, 0, -0.525308, 8.0399, 9.79722, 31.6793)
+mass = 1.0
+roll_max_rate_deg = 10000.0

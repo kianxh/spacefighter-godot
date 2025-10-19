@@ -54,11 +54,11 @@ points = PackedVector3Array(2.39016, -0.4986, -9.5141, 4.68884, -0.4986, 9.5197,
 load_path = "res://.godot/imported/crosshair008.png-6ccafc1d5e01eb1f1a6b6787fabad6b1.ctex"
 
 [node name="Ship" type="RigidBody3D"]
-mass = 100.0
+mass = 1000.0
 gravity_scale = 0.0
 continuous_cd = true
-linear_damp = 0.1
-angular_damp = 0.2
+linear_damp = 0.01
+angular_damp = 0.02
 script = ExtResource("1_6g4xn")
 
 [node name="Corvette_02" type="MeshInstance3D" parent="."]
