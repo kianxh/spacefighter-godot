@@ -1,6 +1,7 @@
-[gd_scene load_steps=7 format=3 uid="uid://v6upa3uxrmvh"]
+[gd_scene load_steps=9 format=3 uid="uid://v6upa3uxrmvh"]
 
 [ext_resource type="Script" uid="uid://bv86xpkfmalyq" path="res://rigid_body_3d.gd" id="1_22c4a"]
+[ext_resource type="PackedScene" uid="uid://uti4j3xemjg7" path="res://scenes/test_torque_cube/thruster.tscn" id="2_bhlru"]
 
 [sub_resource type="ProceduralSkyMaterial" id="ProceduralSkyMaterial_22c4a"]
 sky_horizon_color = Color(0.66224277, 0.6717428, 0.6867428, 1)
@@ -18,6 +19,8 @@ glow_enabled = true
 [sub_resource type="BoxShape3D" id="BoxShape3D_bhlru"]
 
 [sub_resource type="BoxMesh" id="BoxMesh_sg1tf"]
+
+[sub_resource type="BoxMesh" id="BoxMesh_bhlru"]
 
 [node name="TorqueCube" type="Node3D"]
 
@@ -41,11 +44,75 @@ kd_roll = 1.0
 [node name="CollisionShape3D" type="CollisionShape3D" parent="RigidBody3D"]
 shape = SubResource("BoxShape3D_bhlru")
 
-[node name="MeshInstance3D" type="MeshInstance3D" parent="RigidBody3D"]
+[node name="Body" type="MeshInstance3D" parent="RigidBody3D"]
 mesh = SubResource("BoxMesh_sg1tf")
 
+[node name="MainThrusterA" parent="RigidBody3D/Body" instance=ExtResource("2_bhlru")]
+transform = Transform3D(1, 0, 0, 0, -4.371139e-08, -1, 0, 1, -4.371139e-08, 0.25, 0, -0.652)
+
+[node name="MainThrusterB" parent="RigidBody3D/Body" instance=ExtResource("2_bhlru")]
+transform = Transform3D(1, 0, 0, 0, -4.371139e-08, -1, 0, 1, -4.371139e-08, -0.25, 0, -0.652)
+
+[node name="AuxThrusterBottom1" parent="RigidBody3D/Body" instance=ExtResource("2_bhlru")]
+transform = Transform3D(0.5, 0, 0, 0, 0.2, 0, 0, 0, 0.5, 0.25, -0.5, 0.25)
+
+[node name="AuxThrusterBottom3" parent="RigidBody3D/Body" instance=ExtResource("2_bhlru")]
+transform = Transform3D(0.5, 0, 0, 0, 0.2, 0, 0, 0, 0.5, -0.25, -0.5, -0.25)
+
+[node name="AuxThrusterBottom2" parent="RigidBody3D/Body" instance=ExtResource("2_bhlru")]
+transform = Transform3D(0.5, 0, 0, 0, 0.2, 0, 0, 0, 0.5, -0.25, -0.5, 0.25)
+
+[node name="AuxThrusterBottom4" parent="RigidBody3D/Body" instance=ExtResource("2_bhlru")]
+transform = Transform3D(0.5, 0, 0, 0, 0.2, 0, 0, 0, 0.5, 0.25, -0.5, -0.25)
+
+[node name="AuxThrusterUp1" parent="RigidBody3D/Body" instance=ExtResource("2_bhlru")]
+transform = Transform3D(-0.5, 1.7484556e-08, 0, -4.371139e-08, -0.2, 0, 0, 0, 0.5, -0.25, 0.49999997, 0.25)
+is_thrusting = true
+
+[node name="AuxThrusterUp2" parent="RigidBody3D/Body" instance=ExtResource("2_bhlru")]
+transform = Transform3D(-0.5, 1.7484556e-08, 0, -4.371139e-08, -0.2, 0, 0, 0, 0.5, 0.25, 0.5, -0.25)
+is_thrusting = true
+
+[node name="AuxThrusterUp3" parent="RigidBody3D/Body" instance=ExtResource("2_bhlru")]
+transform = Transform3D(-0.5, 1.7484556e-08, 0, -4.371139e-08, -0.2, 0, 0, 0, 0.5, 0.25, 0.5, 0.25)
+is_thrusting = true
+
+[node name="AuxThrusterUp4" parent="RigidBody3D/Body" instance=ExtResource("2_bhlru")]
+transform = Transform3D(-0.5, 1.7484556e-08, 0, -4.371139e-08, -0.2, 0, 0, 0, 0.5, -0.25, 0.49999997, -0.25)
+is_thrusting = true
+
+[node name="AuxThrusterLeft1" parent="RigidBody3D/Body" instance=ExtResource("2_bhlru")]
+transform = Transform3D(-2.1855694e-08, -0.2, 0, 0.5, -8.742277e-09, 0, 0, 0, 0.5, 0.5, 2.9802322e-08, 0.25)
+
+[node name="AuxThrusterLeft2" parent="RigidBody3D/Body" instance=ExtResource("2_bhlru")]
+transform = Transform3D(-2.1855694e-08, -0.2, 0, 0.5, -8.742277e-09, 0, 0, 0, 0.5, 0.5, 2.9802322e-08, -0.25)
+
+[node name="AuxThrusterRight1" parent="RigidBody3D/Body" instance=ExtResource("2_bhlru")]
+transform = Transform3D(-2.1855694e-08, 0.2, 0, -0.5, -8.742279e-09, 0, 0, 0, 0.5, -0.5, 2.9802322e-08, 0.25)
+
+[node name="AuxThrusterRight2" parent="RigidBody3D/Body" instance=ExtResource("2_bhlru")]
+transform = Transform3D(-2.1855694e-08, 0.2, 0, -0.5, -8.742279e-09, 0, 0, 0, 0.5, -0.5, 2.9802322e-08, -0.25)
+
+[node name="AuxThrusterForward1" parent="RigidBody3D/Body" instance=ExtResource("2_bhlru")]
+transform = Transform3D(2.7316995e-15, -8.742278e-09, 0.5, -0.5, -8.742279e-09, 0, 2.1855694e-08, -0.2, -2.1855694e-08, 0.25, 0, 0.5)
+
+[node name="AuxThrusterForward2" parent="RigidBody3D/Body" instance=ExtResource("2_bhlru")]
+transform = Transform3D(2.7316995e-15, -8.742278e-09, 0.5, -0.5, -8.742279e-09, 0, 2.1855694e-08, -0.2, -2.1855694e-08, -0.25, 0, 0.5)
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="RigidBody3D/Body"]
+transform = Transform3D(0.025529385, 0, 0, 0, 0.36126652, 0.20721027, 0, -0.20857733, 0.3588987, 0, 0.5385449, -0.2879281)
+mesh = SubResource("BoxMesh_bhlru")
+
+[node name="MeshInstance3D2" type="MeshInstance3D" parent="RigidBody3D/Body"]
+transform = Transform3D(-0.0066074915, 0.29094008, -0.9212214, -0.024659494, -0.0779572, 0.24684055, -9.664194e-10, 0.52169967, 0.5506297, 0.7, -0.255, -0.159)
+mesh = SubResource("BoxMesh_bhlru")
+
+[node name="MeshInstance3D3" type="MeshInstance3D" parent="RigidBody3D/Body"]
+transform = Transform3D(-0.0066074934, -0.29094005, 0.9212214, 0.024659496, -0.077957146, 0.24684057, -7.695009e-10, 0.5216997, 0.55062973, -0.7, -0.255, -0.159)
+mesh = SubResource("BoxMesh_bhlru")
+
 [node name="Camera3D" type="Camera3D" parent="."]
-transform = Transform3D(0.72288275, -0.33286712, 0.605508, 0, 0.8763152, 0.48173845, -0.6909708, -0.3482404, 0.6334731, 3, 3, 3)
+transform = Transform3D(-0.99974537, -0.010870547, 0.01977426, -1.2324541e-10, 0.876315, 0.48173836, -0.022565238, 0.481616, -0.8760918, 0, 3, -6.1288795)
 
 [node name="Label" type="Label" parent="."]
 offset_right = 40.0
