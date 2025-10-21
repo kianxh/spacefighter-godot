@@ -1,264 +1,144 @@
+# Spacefighter.gd (Godot 4.5.1)
 extends RigidBody3D
+class_name ShipRigidBody3D
 
-@onready var animation_player: AnimationPlayer = $"../AnimationPlayer"
-@onready var label: Label = $"../Label"
+# --- Public API (normalized inputs; setze diese pro Frame von deinem Input-System) ---
+@export var move: Vector3 = Vector3.ZERO	# (x=sway, y=heave, z=thrust) in [-1..1]
+@export var turn: Vector3 = Vector3.ZERO	# (x=pitch, y=yaw, z=roll)   in [-1..1]
 
-# --- Rollregelung mit PD-Regler -----------------------
-# PD-Regler = Proportional + Derivativ:
-#   - P-Anteil (Kp): zieht Richtung Ziel (Fehler * Kp) → macht das System schnell.
-#   - D-Anteil (Kd): bremst abhängig von aktueller Geschwindigkeit → stabilisiert, verhindert Überschwingen.
-# Für Rollen regeln wir die *Winkelgeschwindigkeit* (ω) um die lokale Z-Achse.
+# --- Tuning: Raten (°/s) & Geschwindigkeiten (m/s) ---
+@export var max_rate_deg: Vector3 = Vector3(200.0, 200.0, 200.0)	# pitch, yaw, roll
+@export var max_speed: Vector3 = Vector3(180.0, 180.0, 180.0)		# sway, heave, thrust (|x|, |y|, |–z|)
 
-# Ziel-Maximalgeschwindigkeit beim Rollen (rad/s).
-# Beispiel: 6 rad/s ≈ 343°/s – recht flott.
+# --- Regler-Gewinne (P auf Rate/Geschwindigkeit, D = Velocity-Dämpfung) ---
+@export var kp_ang: Vector3 = Vector3(20,20,20)
+@export var kd_ang: Vector3 = Vector3(12,12,12)
+@export var kp_lin: Vector3 = Vector3(300.0, 300.0, 500.0)
+@export var kd_lin: Vector3 = Vector3(60.0, 60.0, 90.0)
 
-# Verstärkungen des PD-Reglers:
-# - kp_roll (Proportional): je größer, desto aggressiver zieht es zum Ziel-ω.
-# - kd_roll (Derivativ): je größer, desto stärker die „eingebaute Bremse“.
+# --- Aktorgrenzen ---
+@export var max_torque: Vector3 = Vector3(800.0, 800.0, 800.0)	# Nm per axis
+@export var max_force: Vector3 = Vector3(20000.0, 20000.0, 30000.0)	# N per axis
 
-@export var max_roll_speed: float = 6.0		# rad/s – Ziel-Max-Rollgeschwindigkeit
-@export var kp_roll: float = 40.0			# P-Verstärkung (zieht zum Soll-ω)
-@export var kd_roll: float = 6.0			# D-Verstärkung (eingebaute Bremse)
-@export var max_roll_torque: float = 400.0	# Nm – Sicherheitslimit fürs Moment
-@export var deadzone: float = 0.05			# Totzone für Eingabe [-1..1], gegen Zittern
+# --- Komfort ---
+@export var input_deadzone: float = 0.05	# kleine Inputs ignorieren
+@export var inertial_dampener: bool = true	# bei Input=0 auf v=0 & w=0 bremsen
 
-func _physics_process(_dt: float) -> void:
-	_apply_roll_controll(_dt)
-	
+func _ready() -> void:
+	# Dämpfungsmodus: Winkel REPLACE (wir regeln selbst), Linear COMBINE (weltweite Dämpfung additiv)
+	angular_damp_mode = RigidBody3D.DAMP_MODE_REPLACE
+	linear_damp_mode = RigidBody3D.DAMP_MODE_REPLACE
+	# Grunddämpfung leicht, Feinregelung übernimmt kd_*:
+	angular_damp = 0.0
+	linear_damp = 0.0
+	gravity_scale = 0.0	
 
-func _apply_roll_controll(delta: float) -> void:
-		# 1) Eingabe lesen: Roll-Input in [-1, 1]
-	var input := roll_input()
+var u_move: Vector3
+var u_turn: Vector3
+var world_basis: Basis
+var omega_local: Vector3
+var target_rate_local: Vector3
+var err_rate: Vector3
+var torque_local: Vector3
+var torque_world: Vector3
 
-	# 2) Ist-Winkelgeschwindigkeit (Welt) → Lokal
-	var omega_world := angular_velocity
-	var omega_local := global_transform.basis.inverse() * omega_world
+func _physics_process(delta: float) -> void:
+	# --- 0) Inputs mit Deadzone ---
+	u_move = _deadzone(_get_move_input(), input_deadzone)
+	u_turn = _deadzone(_get_rotation_input(), input_deadzone)
 
-	# 3) Soll-Winkelgeschwindigkeit aus Input ableiten
-	var omega_target := input * max_roll_speed
+	# --- 1) Rotation: inertia-aware PD + gyro feed-forward ---
+	var B: Basis = global_transform.basis.orthonormalized()
+	var B_T: Basis = B.transposed()
 
-	# 4) Regelfehler auf der Roll-Achse (lokal Z)
-	var error := omega_target - omega_local.z
+	var w: Vector3 = B_T * angular_velocity
+	var w_target: Vector3 = Vector3(
+		deg_to_rad(max_rate_deg.x) * u_turn.x,	# pitch
+		deg_to_rad(max_rate_deg.y) * u_turn.y,	# yaw
+		deg_to_rad(max_rate_deg.z) * u_turn.z	# roll
+	)
+	if inertial_dampener and u_turn == Vector3.ZERO:
+		w_target = Vector3.ZERO
 
-	# 5) PD-Regler-Moment (lokal): M = Kp * error - Kd * ω_ist
-	var torque_local := Vector3(0.0, 0.0, kp_roll * error - kd_roll * omega_local.z)
+	var e: Vector3 = w_target - w
 
-	# 6) Sicherheitsbegrenzung
-	if torque_local.length() > max_roll_torque:
-		torque_local = torque_local.normalized() * max_roll_torque
+	# Trägheit (Diagonal) aus dem Body; guard gegen 0
+	var I: Vector3 = inertia
+	I.x = max(I.x, 1e-3)
+	I.y = max(I.y, 1e-3)
+	I.z = max(I.z, 1e-3)
 
-	# 7) Moment in Weltkoordinaten anwenden
-	var torque_world := global_transform.basis * torque_local
-	apply_torque(torque_world)
+	# gewünschte Winkelbeschleunigung (rad/s^2)
+	var alpha_des: Vector3 = Vector3(
+		kp_ang.x * e.x - kd_ang.x * w.x,
+		kp_ang.y * e.y - kd_ang.y * w.y,
+		kp_ang.z * e.z - kd_ang.z * w.z
+	)
 
-# Beispiel-Input (ersetzen durch deine Aim-/Inputlogik nach Bedarf)
-func roll_input() -> float:
-	var right := Input.get_action_strength("roll_right")
-	var left := Input.get_action_strength("roll_left")
-	var raw := right - left
-	if abs(raw) < deadzone:
-		return 0.0
-	return clamp(raw, -1.0, 1.0)
+	# Gyro-Feed-Forward: tau = I·alpha_des + w × (I·w)   (alles im lokalen Raum)
+	var Iw: Vector3 = Vector3(I.x * w.x, I.y * w.y, I.z * w.z)
+	var tau_local: Vector3 = Vector3(I.x * alpha_des.x, I.y * alpha_des.y, I.z * alpha_des.z) + w.cross(Iw)
 
-func thrust_input() -> Vector3:
-	var forward := Input.get_action_strength("throttle_up")
-	var backward := Input.get_action_strength("throttle_down")
-	var strafe_upwards := Input.get_action_strength("heave_up")
-	var strafe_downwards := Input.get_action_strength("heave_down")
-	var strafe_left := Input.get_action_strength("sway_left")
-	var strafe_right := Input.get_action_strength("sway_right")
-	
-	var thrust := forward - backward
-	var sway := strafe_right - strafe_left
-	var heave := strafe_upwards - strafe_downwards
-	
-	return Vector3(sway, heave, thrust)
+	tau_local = _clamp_axis(tau_local, max_torque)
+	apply_torque(B * tau_local)
 
+	# --- 2) Translation: Speed-Hold im lokalen Raum + Transport-FF ---
+	var v_local: Vector3 = B_T * linear_velocity
+	var target_v_local := Vector3(
+		max_speed.x * u_move.x,
+		max_speed.y * u_move.y,
+		- max_speed.z * u_move.z	# +1 => vorwärts (−Z)
+	)
+	if inertial_dampener and u_move == Vector3.ZERO:
+		target_v_local = Vector3.ZERO
 
-@onready var main_thruster_a: Thruster = $Body/MainThrusterA
-@onready var main_thruster_b: Thruster = $Body/MainThrusterB
-@onready var aux_thruster_bottom_1: Thruster = $Body/AuxThrusterBottom1
-@onready var aux_thruster_bottom_3: Thruster = $Body/AuxThrusterBottom3
-@onready var aux_thruster_bottom_2: Thruster = $Body/AuxThrusterBottom2
-@onready var aux_thruster_bottom_4: Thruster = $Body/AuxThrusterBottom4
-@onready var aux_thruster_up_1: Thruster = $Body/AuxThrusterUp1
-@onready var aux_thruster_up_2: Thruster = $Body/AuxThrusterUp2
-@onready var aux_thruster_up_3: Thruster = $Body/AuxThrusterUp3
-@onready var aux_thruster_up_4: Thruster = $Body/AuxThrusterUp4
-@onready var aux_thruster_left_1: Thruster = $Body/AuxThrusterLeft1
-@onready var aux_thruster_left_2: Thruster = $Body/AuxThrusterLeft2
-@onready var aux_thruster_right_1: Thruster = $Body/AuxThrusterRight1
-@onready var aux_thruster_right_2: Thruster = $Body/AuxThrusterRight2
-@onready var aux_thruster_forward_1: Thruster = $Body/AuxThrusterForward1
-@onready var aux_thruster_forward_2: Thruster = $Body/AuxThrusterForward2
+	var err_v := target_v_local - v_local
 
+	# PD auf Geschwindigkeit (in lokalem Raum)
+	var dv_des_local := Vector3(
+		kp_lin.x * err_v.x - kd_lin.x * v_local.x,
+		kp_lin.y * err_v.y - kd_lin.y * v_local.y,
+		kp_lin.z * err_v.z - kd_lin.z * v_local.z
+	)
 
-func _update_thrust_animation() -> void:
-	var input := thrust_input()
-	var sway := input.x
-	var heave := input.y
-	var thrust := input.z
+	# *** Transport-/Coriolis-Kompensation ***
+	# In einem rotierenden Frame gilt: d(v_local)/dt = B^T * a_world - w_local × v_local
+	# ⇒ um gewünschtes dv_local zu erreichen: a_world = B * (dv_des_local + w_local × v_local)
+	var omega_local_now: Vector3 = B_T * angular_velocity
+	dv_des_local += omega_local_now.cross(v_local)
 
-	
-	if thrust == 0:
-		_set_thruster_states([
-			main_thruster_a,
-			main_thruster_b,
-			aux_thruster_forward_1,
-			aux_thruster_forward_2,
-		], false)
-	elif thrust > 0:
-		_set_thruster_states([
-			aux_thruster_forward_1,
-			aux_thruster_forward_2,
-		], false)
-		_set_thruster_states([
-			main_thruster_a,
-			main_thruster_b,
-		], true)
-	elif thrust < 0:
-		_set_thruster_states([
-			aux_thruster_forward_1,
-			aux_thruster_forward_2,
-		], true)
-		_set_thruster_states([
-			main_thruster_a,
-			main_thruster_b,
-		], false)
-	
-	if sway == 0:
-		_set_thruster_states([
-			aux_thruster_left_1,
-			aux_thruster_left_2,
-			aux_thruster_right_1,
-			aux_thruster_right_2,
-		], false)
-	elif sway > 0:
-		_set_thruster_states([
-			aux_thruster_right_1,
-			aux_thruster_right_2,
-		], false)
-		_set_thruster_states([
-			aux_thruster_left_1,
-			aux_thruster_left_2,
-		], true)
-	elif sway < 0:
-		_set_thruster_states([
-			aux_thruster_right_1,
-			aux_thruster_right_2,
-		], true)
-		_set_thruster_states([
-			aux_thruster_left_1,
-			aux_thruster_left_2,
-		], false)
-	
-	if heave == 0:
-		_set_thruster_states([
-			aux_thruster_bottom_1,
-			aux_thruster_bottom_2,
-			aux_thruster_bottom_3,
-			aux_thruster_bottom_4,
-			aux_thruster_up_1,
-			aux_thruster_up_2,
-			aux_thruster_up_3,
-			aux_thruster_up_4,
-		], false)
-	elif heave > 0:
-		_set_thruster_states([
-			aux_thruster_up_1,
-			aux_thruster_up_2,
-			aux_thruster_up_3,
-			aux_thruster_up_4,
-		], false)
-		_set_thruster_states([
-			aux_thruster_bottom_1,
-			aux_thruster_bottom_2,
-			aux_thruster_bottom_3,
-			aux_thruster_bottom_4,
-		], true)
-	elif heave < 0:
-		_set_thruster_states([
-			aux_thruster_up_1,
-			aux_thruster_up_2,
-			aux_thruster_up_3,
-			aux_thruster_up_4,
-		], true)
-		_set_thruster_states([
-			aux_thruster_bottom_1,
-			aux_thruster_bottom_2,
-			aux_thruster_bottom_3,
-			aux_thruster_bottom_4,
-		], false)
-	
+	# Kraft = m * a_world, danach wieder in lokale Achsen begrenzen
+	var a_world := B * dv_des_local
+	var force_world := a_world * mass
 
-func _update_roll_animation() -> void:
-	var input := roll_input()
-	
-	#if input == 0.0:
-		#_set_thruster_states([
-			#aux_thruster_bottom_2,
-			#aux_thruster_bottom_3, 
-			#aux_thruster_up_2,
-			#aux_thruster_up_3,
-			#aux_thruster_up_1,
-			#aux_thruster_up_4,
-			#aux_thruster_bottom_1,
-			#aux_thruster_bottom_4, 
-		#], false)
-	if input > 0.0:
-		_set_thruster_states([
-			aux_thruster_bottom_2,
-			aux_thruster_bottom_3, 
-			aux_thruster_up_2,
-			aux_thruster_up_3,
-		], false)
-		_set_thruster_states([
-			aux_thruster_up_1,
-			aux_thruster_up_4,
-			aux_thruster_bottom_1,
-			aux_thruster_bottom_4, 
-		], true)
-	elif input < 0.0:
-		# roll left
-		_set_thruster_states([
-			aux_thruster_up_1,
-			aux_thruster_up_4,
-			aux_thruster_bottom_1,
-			aux_thruster_bottom_4, 
-		], false)
-		_set_thruster_states([
-			aux_thruster_bottom_2,
-			aux_thruster_bottom_3, 
-			aux_thruster_up_2,
-			aux_thruster_up_3,
-		], true)
-	
-func _set_thruster_states(thrusters: Array[Thruster], value: bool) -> void:
-	for thruster in thrusters:
-		if thruster:
-			thruster.is_thrusting = value
+	var force_local := B_T * force_world
+	force_local = _clamp_axis(force_local, max_force)
 
+	apply_force(B * force_local)
 
-# Debug Anzeige
+# --- Helpers ---
+func _deadzone(v: Vector3, dz: float) -> Vector3:
+	return Vector3(
+		v.x if abs(v.x) >= dz else 0.0,
+		v.y if abs(v.y) >= dz else 0.0,
+		v.z if abs(v.z) >= dz else 0.0
+	)
 
-func _process(delta: float) -> void:
-	_update_thrust_animation()
-	_update_roll_animation()
-	_update_label()
+func _clamp_axis(v: Vector3, lim: Vector3) -> Vector3:
+	return Vector3(
+		clamp(v.x, -lim.x, lim.x),
+		clamp(v.y, -lim.y, lim.y),
+		clamp(v.z, -lim.z, lim.z)
+	)
 
-func _update_label() -> void:	
-	label.text = """Inputs:
-		inertia: %s
-		angular velocity: %s
-		angular damp: %s
-		
-		roll input: %s
-		thrust input: %s
-	
-	""" % [
-		str(inertia),
-		str(angular_velocity),
-		str(angular_damp),
-		str(roll_input()),
-		str(thrust_input()),
-	]
+# Returns (x=sway, y=heave, z=thrust) in [-1..1]
+func _get_move_input() -> Vector3:
+	var heave := Input.get_action_strength("heave_up") - Input.get_action_strength("heave_down")
+	var thrust := Input.get_action_strength("throttle_up") - Input.get_action_strength("throttle_down") # +1 = vorwärts
+	return Vector3(0.0, heave, thrust)
+
+func _get_rotation_input() -> Vector3:
+	# (x=pitch, y=yaw, z=roll)   in [-1..1]
+	var pitch = Input.get_action_strength("pitch_down") - Input.get_action_strength("pitch_up")
+	var roll = Input.get_action_strength("roll_right") - Input.get_action_strength("roll_left")
+	return Vector3(pitch, 0.0, roll)

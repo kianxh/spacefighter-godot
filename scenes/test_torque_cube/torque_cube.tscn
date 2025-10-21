@@ -1,7 +1,8 @@
-[gd_scene load_steps=9 format=3 uid="uid://v6upa3uxrmvh"]
+[gd_scene load_steps=10 format=3 uid="uid://v6upa3uxrmvh"]
 
 [ext_resource type="Script" uid="uid://bv86xpkfmalyq" path="res://rigid_body_3d.gd" id="1_22c4a"]
 [ext_resource type="PackedScene" uid="uid://uti4j3xemjg7" path="res://scenes/test_torque_cube/thruster.tscn" id="2_bhlru"]
+[ext_resource type="Script" uid="uid://cb8l7s30bckf5" path="res://scenes/test_torque_cube/label.gd" id="3_sg1tf"]
 
 [sub_resource type="ProceduralSkyMaterial" id="ProceduralSkyMaterial_22c4a"]
 sky_horizon_color = Color(0.66224277, 0.6717428, 0.6867428, 1)
@@ -16,11 +17,12 @@ sky = SubResource("Sky_bhlru")
 tonemap_mode = 2
 glow_enabled = true
 
-[sub_resource type="BoxShape3D" id="BoxShape3D_bhlru"]
-
 [sub_resource type="BoxMesh" id="BoxMesh_sg1tf"]
 
 [sub_resource type="BoxMesh" id="BoxMesh_bhlru"]
+
+[sub_resource type="ConvexPolygonShape3D" id="ConvexPolygonShape3D_bhlru"]
+points = PackedVector3Array(-0.5, -0.5, -0.5, 0.5, 0.5, 0.5, 0.5, -0.5, 0.5, 0.5, 0.5, -0.5, -0.5, 0.5, 0.5, 0.5, -0.5, -0.5, -0.5, -0.5, 0.5, -0.5, 0.5, -0.5)
 
 [node name="TorqueCube" type="Node3D"]
 
@@ -32,17 +34,15 @@ transform = Transform3D(-0.8660254, -0.43301278, 0.25, 0, 0.49999997, 0.86602545
 shadow_enabled = true
 
 [node name="RigidBody3D" type="RigidBody3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -8.602641, 0, 113.209465)
 mass = 10.0
 gravity_scale = 0.0
+continuous_cd = true
 linear_damp_mode = 1
 angular_damp_mode = 1
-angular_damp = 0.05
 script = ExtResource("1_22c4a")
-kp_roll = 10.0
-kd_roll = 1.0
-
-[node name="CollisionShape3D" type="CollisionShape3D" parent="RigidBody3D"]
-shape = SubResource("BoxShape3D_bhlru")
+move = Vector3(0, 0, -1)
+turn = Vector3(0.3, 0, 0)
 
 [node name="Body" type="MeshInstance3D" parent="RigidBody3D"]
 mesh = SubResource("BoxMesh_sg1tf")
@@ -111,9 +111,13 @@ mesh = SubResource("BoxMesh_bhlru")
 transform = Transform3D(-0.0066074934, -0.29094005, 0.9212214, 0.024659496, -0.077957146, 0.24684057, -7.695009e-10, 0.5216997, 0.55062973, -0.7, -0.255, -0.159)
 mesh = SubResource("BoxMesh_bhlru")
 
-[node name="Camera3D" type="Camera3D" parent="."]
-transform = Transform3D(-0.99974537, -0.010870547, 0.01977426, -1.2324541e-10, 0.876315, 0.48173836, -0.022565238, 0.481616, -0.8760918, 0, 3, -6.1288795)
+[node name="CollisionShape3D" type="CollisionShape3D" parent="RigidBody3D"]
+shape = SubResource("ConvexPolygonShape3D_bhlru")
+
+[node name="Camera3D" type="Camera3D" parent="RigidBody3D"]
+transform = Transform3D(-1, 0, 8.742278e-08, 0, 1, 0, -8.742278e-08, 0, -1, 0, 0, 0)
 
 [node name="Label" type="Label" parent="."]
 offset_right = 40.0
 offset_bottom = 23.0
+script = ExtResource("3_sg1tf")
