@@ -1,0 +1,93 @@
+[gd_scene load_steps=8 format=3 uid="uid://b5p8eybsllhym"]
+
+[ext_resource type="Script" uid="uid://b8wjsx8drcu3o" path="res://scenes/pid_controller_demo_gravity/body.gd" id="1_nja2u"]
+
+[sub_resource type="ProceduralSkyMaterial" id="ProceduralSkyMaterial_q50ca"]
+sky_horizon_color = Color(0.66224277, 0.6717428, 0.6867428, 1)
+ground_horizon_color = Color(0.66224277, 0.6717428, 0.6867428, 1)
+
+[sub_resource type="Sky" id="Sky_qnhaq"]
+sky_material = SubResource("ProceduralSkyMaterial_q50ca")
+
+[sub_resource type="Environment" id="Environment_67miw"]
+background_mode = 2
+sky = SubResource("Sky_qnhaq")
+tonemap_mode = 2
+glow_enabled = true
+
+[sub_resource type="BoxMesh" id="BoxMesh_qnhaq"]
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_67miw"]
+albedo_color = Color(0.49463326, 0.55252904, 0.9658645, 1)
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_qcqqe"]
+
+[node name="PidControllerDemoGravity" type="Node3D"]
+
+[node name="WorldEnvironment" type="WorldEnvironment" parent="."]
+environment = SubResource("Environment_67miw")
+
+[node name="DirectionalLight3D" type="DirectionalLight3D" parent="."]
+transform = Transform3D(-0.8660254, -0.43301278, 0.25, 0, 0.49999997, 0.86602545, -0.50000006, 0.75, -0.43301266, 0, 0, 0)
+shadow_enabled = true
+directional_shadow_max_distance = 1.0
+
+[node name="Camera3D" type="Camera3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 0.9659259, 0.25881907, 0, -0.25881907, 0.9659258, 0, 3.977477, 2)
+
+[node name="Body" type="RigidBody3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.6398101, 0.9, -3)
+script = ExtResource("1_nja2u")
+pid_p_gain = 12.0
+pid_i_gain = 0.9
+pid_d_gain = 5.0
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="Body"]
+mesh = SubResource("BoxMesh_qnhaq")
+surface_material_override/0 = SubResource("StandardMaterial3D_67miw")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Body"]
+shape = SubResource("BoxShape3D_qcqqe")
+
+[node name="Target" type="CSGBox3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1, 0, -3)
+use_collision = true
+size = Vector3(1, 0.5, 1)
+metadata/is_clickable = true
+
+[node name="Target2" type="CSGBox3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1, 1, -3)
+use_collision = true
+size = Vector3(1, 0.5, 1)
+metadata/is_clickable = true
+
+[node name="Target3" type="CSGBox3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1, 2, -3)
+use_collision = true
+size = Vector3(1, 0.5, 1)
+metadata/is_clickable = true
+
+[node name="Target4" type="CSGBox3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1, 3, -3)
+use_collision = true
+size = Vector3(1, 0.5, 1)
+metadata/is_clickable = true
+
+[node name="Target5" type="CSGBox3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1, 4, -3)
+use_collision = true
+size = Vector3(1, 0.5, 1)
+metadata/is_clickable = true
+
+[node name="Target6" type="CSGBox3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1, 5, -3)
+use_collision = true
+size = Vector3(1, 0.5, 1)
+metadata/is_clickable = true
+
+[node name="CanvasLayer" type="CanvasLayer" parent="."]
+
+[node name="Label" type="Label" parent="CanvasLayer"]
+offset_right = 40.0
+offset_bottom = 23.0
+text = "Debug label"
