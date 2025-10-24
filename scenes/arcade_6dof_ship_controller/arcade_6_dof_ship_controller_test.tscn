@@ -1,8 +1,10 @@
-[gd_scene load_steps=11 format=4 uid="uid://drik3nobiwukl"]
+[gd_scene load_steps=13 format=4 uid="uid://drik3nobiwukl"]
 
 [ext_resource type="Script" uid="uid://bi5xbcn5ytg6i" path="res://scripts/arcade_6_dof_controller.gd" id="1_n68l0"]
 [ext_resource type="Script" uid="uid://1q3b2gn7s4ax" path="res://scripts/camera_operator.gd" id="2_nnxdh"]
 [ext_resource type="Texture2D" uid="uid://ch1rsdy1h7lwe" path="res://assets/Free Battle Spaceship 3D Models/T_Spase_64.png" id="3_u6fot"]
+[ext_resource type="Script" uid="uid://b0yoy8qpce44f" path="res://scenes/arcade_6dof_ship_controller/ship.gd" id="3_ul08f"]
+[ext_resource type="Script" uid="uid://hfa2vjoat4j4" path="res://scripts/cinematic_camera.gd" id="4_u6fot"]
 
 [sub_resource type="ProceduralSkyMaterial" id="ProceduralSkyMaterial_nnxdh"]
 sky_horizon_color = Color(0.66224277, 0.6717428, 0.6867428, 1)
@@ -79,6 +81,8 @@ script = ExtResource("2_nnxdh")
 cameras = [NodePath("../Ship/PilotCamera"), NodePath("../Ship/WingCamera"), NodePath("../CinematicCamera")]
 
 [node name="Ship" type="RigidBody3D" parent="."]
+gravity_scale = 0.0
+script = ExtResource("3_ul08f")
 
 [node name="ShipMesh" type="MeshInstance3D" parent="Ship"]
 transform = Transform3D(-4.371139e-08, 0, -1, 0, 1, 0, 1, 0, -4.371139e-08, 0, -5.0962696, 0)
@@ -95,5 +99,7 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2.2328627, 1.1905239)
 [node name="WingCamera" type="Camera3D" parent="Ship"]
 transform = Transform3D(-1, 0, 8.742278e-08, 0, 1, 0, -8.742278e-08, 0, -1, 2.6752856, 1.7970243, -4.6217165)
 
-[node name="CinematicCamera" type="Camera3D" parent="."]
+[node name="CinematicCamera" type="Camera3D" parent="." node_paths=PackedStringArray("target")]
 transform = Transform3D(-0.95648825, 0, 0.29177088, 0, 1, 0, -0.29177088, 0, -0.95648825, 20.429058, 3.1838493, -61.952362)
+script = ExtResource("4_u6fot")
+target = NodePath("../Ship")

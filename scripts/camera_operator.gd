@@ -25,5 +25,5 @@ func cycle_cameras() -> void:
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _input(event: InputEvent) -> void:
-	if Input.is_action_just_pressed("camera_toggle"):
+	if Input.is_action_just_released("camera_toggle"):
 		cycle_cameras()
