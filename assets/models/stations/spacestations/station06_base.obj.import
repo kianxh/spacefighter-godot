@@ -1,0 +1,25 @@
+[remap]
+
+importer="wavefront_obj"
+importer_version=1
+type="Mesh"
+uid="uid://d1k5tiln42dw7"
+path="res://.godot/imported/station06_base.obj-993eb4648c824afe56cd6f5656b59070.mesh"
+
+[deps]
+
+files=["res://.godot/imported/station06_base.obj-993eb4648c824afe56cd6f5656b59070.mesh"]
+
+source_file="res://assets/models/stations/spacestations/station06_base.obj"
+dest_files=["res://.godot/imported/station06_base.obj-993eb4648c824afe56cd6f5656b59070.mesh", "res://.godot/imported/station06_base.obj-993eb4648c824afe56cd6f5656b59070.mesh"]
+
+[params]
+
+generate_tangents=true
+generate_lods=true
+generate_shadow_mesh=true
+generate_lightmap_uv2=false
+generate_lightmap_uv2_texel_size=0.2
+scale_mesh=Vector3(1, 1, 1)
+offset_mesh=Vector3(0, 0, 0)
+force_disable_mesh_compression=false

@@ -1,7 +1,9 @@
-[gd_scene load_steps=10 format=3 uid="uid://b66b412fmidcd"]
+[gd_scene load_steps=12 format=3 uid="uid://b66b412fmidcd"]
 
 [ext_resource type="Texture2D" uid="uid://bxqrgsq7l45oi" path="res://assets/textures/sky/white_local_star_1.png" id="1_0q4g7"]
 [ext_resource type="PackedScene" uid="uid://dbf2c07g13ukl" path="res://scenes/utils/free_fly_camera/free_fly_camera.tscn" id="2_3sgxt"]
+[ext_resource type="PackedScene" uid="uid://qokficmdqa3l" path="res://scenes/player/ships/player_ship_1.tscn" id="4_1eqo4"]
+[ext_resource type="PackedScene" uid="uid://c6u3ncldkpjf0" path="res://scenes/stations/station_1.tscn" id="4_5ngf0"]
 
 [sub_resource type="PanoramaSkyMaterial" id="PanoramaSkyMaterial_3sgxt"]
 panorama = ExtResource("1_0q4g7")
@@ -14,8 +16,8 @@ background_mode = 2
 sky = SubResource("Sky_hgb7g")
 sky_rotation = Vector3(0, 0.43633232, 0.2617994)
 ambient_light_color = Color(1, 1, 1, 1)
-ambient_light_sky_contribution = 0.9
-ambient_light_energy = 0.08
+ambient_light_sky_contribution = 0.8
+ambient_light_energy = 0.1
 tonemap_mode = 2
 glow_enabled = true
 
@@ -50,8 +52,11 @@ angular_damp = 9.0
 constant_torque = Vector3(1, 0, 1)
 
 [node name="DummyCube" type="CSGBox3D" parent="DummyBody"]
+transform = Transform3D(7, 0, 0, 0, 7, 0, 0, 0, 7, 0, 0, 0)
+use_collision = true
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="DummyBody"]
+transform = Transform3D(7, 0, 0, 0, 7, 0, 0, 0, 7, 0, 0, 0)
 shape = SubResource("BoxShape3D_5m81k")
 
 [node name="FreeFlyCamera" parent="." instance=ExtResource("2_3sgxt")]
@@ -59,3 +64,9 @@ transform = Transform3D(-0.67129296, 0.39696246, -0.62592864, 0, 0.844489, 0.535
 
 [node name="DefaultWorldEnvironment" type="WorldEnvironment" parent="."]
 environment = SubResource("Environment_5ngf0")
+
+[node name="ShipBody" parent="." instance=ExtResource("4_1eqo4")]
+transform = Transform3D(0.9999998, 0, 0, 0, 1.0000001, 0, 0, 0, 1, -36.12349, -1.442132, 11.996983)
+
+[node name="Station1" parent="." instance=ExtResource("4_5ngf0")]
+transform = Transform3D(0.06754929, 0.7250791, -0.6853447, -0.93518764, 0.285367, 0.20973738, 0.34765095, 0.6267583, 0.69736135, 100.07916, 33.37361, -1653.6329)

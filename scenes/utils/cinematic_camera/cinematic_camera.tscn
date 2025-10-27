@@ -1,0 +1,8 @@
+[gd_scene load_steps=2 format=3 uid="uid://iidhvrjehgq1"]
+
+[ext_resource type="Script" uid="uid://hfa2vjoat4j4" path="res://scenes/utils/cinematic_camera/cinematic_camera.gd" id="1_v3iej"]
+
+[node name="CinematicCamera" type="Camera3D" node_paths=PackedStringArray("target")]
+transform = Transform3D(-0.95648825, 0, 0.29177088, 0, 1, 0, -0.29177088, 0, -0.95648825, 0, 0, 0)
+script = ExtResource("1_v3iej")
+target = NodePath("")

@@ -4,6 +4,7 @@ extends CharacterBody3D
 @export var fast_mult := 4.0
 @export var slow_mult := 0.25
 @export var mouse_sens := 0.002
+@export var enabled := false
 
 var look_enabled := false
 var yaw := 0.0
@@ -16,6 +17,9 @@ func _ready():
 	pitch = cam.rotation.x
 
 func _unhandled_input(event):
+	if not enabled:
+		return
+	
 	if event is InputEventMouseButton and event.button_index == MOUSE_BUTTON_LEFT:
 		look_enabled = event.pressed
 		Input.set_mouse_mode(Input.MOUSE_MODE_CAPTURED if look_enabled else Input.MOUSE_MODE_VISIBLE)
@@ -30,6 +34,9 @@ func _unhandled_input(event):
 		Input.set_mouse_mode(Input.MOUSE_MODE_VISIBLE)
 
 func _physics_process(delta):
+	if not enabled:
+		return
+		
 	var input_dir := Vector3.ZERO
 	if Input.is_action_pressed("free_fly_camera_move_forward"): input_dir -= transform.basis.z
 	if Input.is_action_pressed("free_fly_camera_move_back"): input_dir += transform.basis.z

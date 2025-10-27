@@ -1,7 +1,7 @@
 [gd_scene load_steps=3 format=3 uid="uid://rmg1inhe0lg"]
 
-[ext_resource type="PackedScene" uid="uid://bbitwid1b83pw" path="res://scenes/ship_aim_controller.tscn" id="1_fo1ae"]
-[ext_resource type="PackedScene" uid="uid://b51e7r7mxxdut" path="res://scenes/ship_hud.tscn" id="2_xruoy"]
+[ext_resource type="PackedScene" path="res://scenes/player/ships/aim_input.tscn" id="1_fo1ae"]
+[ext_resource type="PackedScene" uid="uid://b51e7r7mxxdut" path="res://scenes/player/ships/ship_hud.tscn" id="2_xruoy"]
 
 [node name="ShipHudTest" type="Node3D"]
 

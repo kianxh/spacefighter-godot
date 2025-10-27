@@ -1,11 +1,14 @@
 extends Node
 
 @export var cameras: Array[Camera3D] = []
-var current_index := 0
+@export var initial_camera_index := 0
+
+var current_index: int
 
 
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:
+	current_index = initial_camera_index
 	cameras[current_index].current = true
 	
 
@@ -19,6 +22,7 @@ func cycle_cameras() -> void:
 		next_index = 0
 	
 	cameras[next_index].current = true
+	print("Active camera: %s" % cameras[next_index].name)
 	current_index = next_index
 	
 

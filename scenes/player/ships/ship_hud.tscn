@@ -1,6 +1,6 @@
 [gd_scene load_steps=3 format=3 uid="uid://b51e7r7mxxdut"]
 
-[ext_resource type="Script" uid="uid://bvioyqh821inb" path="res://scenes/ship_hud.gd" id="1_s7xv2"]
+[ext_resource type="Script" uid="uid://bvioyqh821inb" path="res://scenes/player/ships/ship_hud.gd" id="1_s7xv2"]
 [ext_resource type="Script" uid="uid://cbo5i2qal32bt" path="res://ship_hud_aim.gd" id="1_vkyvg"]
 
 [node name="ShipHud" type="CanvasLayer"]

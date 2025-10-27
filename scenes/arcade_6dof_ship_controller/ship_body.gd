@@ -1,8 +1,8 @@
 extends CharacterBody3D
 class_name ArcadeSixDofController
 
+@onready var aim_input: AimInput = $Controls/AimInput
 
-@onready var aim: AimController = $"../ShipAimController"
 
 @export var sway_speed: float = 20.0	# m/s along local +X/-X (sway)
 @export var heave_speed: float = 20.0	# m/s along local +Y/-Y (heave)
@@ -12,11 +12,12 @@ class_name ArcadeSixDofController
 @export var yaw_rate_deg: float = 120.0		# deg/s around local Y (yaw)
 @export var roll_rate_deg: float = 180.0	# deg/s around local Z (roll)
 
+
 func _physics_process(delta: float) -> void:
 	# raw inputs (no smoothing)
 	var lin: Vector3 = get_movement_input()	# (sway, heave, surge)
 	var ang2: Vector3 = get_rotation_input()	# (pitch, yaw, roll)
-	var aim_cmd := aim.get_aim_direction() * aim.get_aim_strength()
+	var aim_cmd := aim_input.get_aim_direction() * aim_input.get_aim_strength()
 	var ang: Vector3 = Vector3(-aim_cmd.y, ang2.y, aim_cmd.x)
 
 	# rotations in local space
