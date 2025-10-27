@@ -1,0 +1,9 @@
+[gd_scene load_steps=2 format=3 uid="uid://dbf2c07g13ukl"]
+
+[ext_resource type="Script" uid="uid://nncl2cg4grwe" path="res://scenes/arena_demo_1/free_fly_camera.gd" id="1_q2rd8"]
+
+[node name="FreeFlyCamera" type="CharacterBody3D"]
+transform = Transform3D(-0.67129284, 0.3969625, -0.62592864, 0, 0.844489, 0.53557295, 0.7411922, 0.35952628, -0.5668994, 0, 0, 0)
+script = ExtResource("1_q2rd8")
+
+[node name="Camera3D" type="Camera3D" parent="."]

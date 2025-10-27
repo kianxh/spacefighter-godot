@@ -1,0 +1,61 @@
+[gd_scene load_steps=10 format=3 uid="uid://b66b412fmidcd"]
+
+[ext_resource type="Texture2D" uid="uid://bxqrgsq7l45oi" path="res://assets/textures/sky/white_local_star_1.png" id="1_0q4g7"]
+[ext_resource type="PackedScene" uid="uid://dbf2c07g13ukl" path="res://scenes/utils/free_fly_camera/free_fly_camera.tscn" id="2_3sgxt"]
+
+[sub_resource type="PanoramaSkyMaterial" id="PanoramaSkyMaterial_3sgxt"]
+panorama = ExtResource("1_0q4g7")
+
+[sub_resource type="Sky" id="Sky_hgb7g"]
+sky_material = SubResource("PanoramaSkyMaterial_3sgxt")
+
+[sub_resource type="Environment" id="Environment_1eqo4"]
+background_mode = 2
+sky = SubResource("Sky_hgb7g")
+sky_rotation = Vector3(0, 0.43633232, 0.2617994)
+ambient_light_color = Color(1, 1, 1, 1)
+ambient_light_sky_contribution = 0.9
+ambient_light_energy = 0.08
+tonemap_mode = 2
+glow_enabled = true
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_5m81k"]
+
+[sub_resource type="ProceduralSkyMaterial" id="ProceduralSkyMaterial_3sgxt"]
+sky_horizon_color = Color(0.66224277, 0.6717428, 0.6867428, 1)
+ground_horizon_color = Color(0.66224277, 0.6717428, 0.6867428, 1)
+
+[sub_resource type="Sky" id="Sky_1eqo4"]
+sky_material = SubResource("ProceduralSkyMaterial_3sgxt")
+
+[sub_resource type="Environment" id="Environment_5ngf0"]
+background_mode = 2
+sky = SubResource("Sky_1eqo4")
+tonemap_mode = 2
+glow_enabled = true
+
+[node name="ArenaDemo1" type="Node3D"]
+
+[node name="DirectionalLight3D" type="DirectionalLight3D" parent="."]
+transform = Transform3D(-0.42261833, -0.23456971, 0.87542605, 0, 0.9659258, 0.25881904, -0.90630776, 0.10938167, -0.40821797, 0, 0, 0)
+shadow_enabled = true
+directional_shadow_max_distance = 1.0
+
+[node name="WorldEnvironment" type="WorldEnvironment" parent="."]
+environment = SubResource("Environment_1eqo4")
+
+[node name="DummyBody" type="RigidBody3D" parent="."]
+gravity_scale = 0.0
+angular_damp = 9.0
+constant_torque = Vector3(1, 0, 1)
+
+[node name="DummyCube" type="CSGBox3D" parent="DummyBody"]
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="DummyBody"]
+shape = SubResource("BoxShape3D_5m81k")
+
+[node name="FreeFlyCamera" parent="." instance=ExtResource("2_3sgxt")]
+transform = Transform3D(-0.67129296, 0.39696246, -0.62592864, 0, 0.844489, 0.53557295, 0.74119216, 0.35952634, -0.5668995, -5.011966, 4.288466, -4.5393047)
+
+[node name="DefaultWorldEnvironment" type="WorldEnvironment" parent="."]
+environment = SubResource("Environment_5ngf0")
