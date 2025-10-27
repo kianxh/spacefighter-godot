@@ -1,11 +1,13 @@
-[gd_scene load_steps=14 format=4 uid="uid://drik3nobiwukl"]
+[gd_scene load_steps=16 format=4 uid="uid://drik3nobiwukl"]
 
 [ext_resource type="Script" uid="uid://bi5xbcn5ytg6i" path="res://scripts/arcade_6_dof_controller.gd" id="1_n68l0"]
 [ext_resource type="Script" uid="uid://1q3b2gn7s4ax" path="res://scripts/camera_operator.gd" id="2_nnxdh"]
 [ext_resource type="Texture2D" uid="uid://ch1rsdy1h7lwe" path="res://assets/Free Battle Spaceship 3D Models/T_Spase_64.png" id="3_u6fot"]
-[ext_resource type="Script" uid="uid://b0yoy8qpce44f" path="res://scenes/arcade_6dof_ship_controller/ship.gd" id="3_ul08f"]
 [ext_resource type="Script" uid="uid://hfa2vjoat4j4" path="res://scripts/cinematic_camera.gd" id="4_u6fot"]
+[ext_resource type="PackedScene" uid="uid://b51e7r7mxxdut" path="res://scenes/ship_hud.tscn" id="7_g0dof"]
 [ext_resource type="Script" uid="uid://brg2g1s2f8f8s" path="res://scenes/arcade_6dof_ship_controller/debug_label.gd" id="7_r3si1"]
+[ext_resource type="Script" uid="uid://u34t7wak84o3" path="res://scenes/arcade_6dof_ship_controller/ship_body.gd" id="7_xibax"]
+[ext_resource type="PackedScene" uid="uid://bbitwid1b83pw" path="res://scenes/ship_aim_controller.tscn" id="8_xibax"]
 
 [sub_resource type="ProceduralSkyMaterial" id="ProceduralSkyMaterial_nnxdh"]
 sky_horizon_color = Color(0.66224277, 0.6717428, 0.6867428, 1)
@@ -77,33 +79,10 @@ directional_shadow_max_distance = 1.0
 [node name="Arcade6DofController" type="Node" parent="."]
 script = ExtResource("1_n68l0")
 
-[node name="CameraOperator" type="Node" parent="." node_paths=PackedStringArray("cameras")]
-script = ExtResource("2_nnxdh")
-cameras = [NodePath("../Ship/PilotCamera"), NodePath("../Ship/WingCamera"), NodePath("../CinematicCamera")]
-
-[node name="Ship" type="RigidBody3D" parent="."]
-gravity_scale = 0.0
-script = ExtResource("3_ul08f")
-
-[node name="ShipMesh" type="MeshInstance3D" parent="Ship"]
-transform = Transform3D(-4.371139e-08, 0, -1, 0, 1, 0, 1, 0, -4.371139e-08, 0, -5.0962696, 0)
-mesh = SubResource("ArrayMesh_ad826")
-skeleton = NodePath("")
-
-[node name="CollisionShape3D" type="CollisionShape3D" parent="Ship"]
-transform = Transform3D(-4.371139e-08, 0, -1, 0, 1, 0, 1, 0, -4.371139e-08, 0, -5.0962696, 0)
-shape = SubResource("ConvexPolygonShape3D_ul08f")
-
-[node name="PilotCamera" type="Camera3D" parent="Ship"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2.2328627, 1.1905239)
-
-[node name="WingCamera" type="Camera3D" parent="Ship"]
-transform = Transform3D(-1, 0, 8.742278e-08, 0, 1, 0, -8.742278e-08, 0, -1, 2.6752856, 1.7970243, -4.6217165)
-
 [node name="CinematicCamera" type="Camera3D" parent="." node_paths=PackedStringArray("target")]
 transform = Transform3D(-0.95648825, 0, 0.29177088, 0, 1, 0, -0.29177088, 0, -0.95648825, 20.429058, 3.1838493, -61.952362)
 script = ExtResource("4_u6fot")
-target = NodePath("../Ship")
+target = NodePath("../ShipBody")
 
 [node name="CanvasLayer" type="CanvasLayer" parent="."]
 
@@ -112,3 +91,51 @@ offset_right = 40.0
 offset_bottom = 23.0
 text = "Debug Label"
 script = ExtResource("7_r3si1")
+
+[node name="ShipBody" type="CharacterBody3D" parent="."]
+script = ExtResource("7_xibax")
+
+[node name="ShipMesh" type="MeshInstance3D" parent="ShipBody"]
+transform = Transform3D(-4.371139e-08, 0, -1, 0, 1, 0, 1, 0, -4.371139e-08, 0, -5.0962696, 0)
+mesh = SubResource("ArrayMesh_ad826")
+skeleton = NodePath("")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="ShipBody"]
+transform = Transform3D(-4.371139e-08, 0, -1, 0, 1, 0, 1, 0, -4.371139e-08, 0, -5.0962696, 0)
+shape = SubResource("ConvexPolygonShape3D_ul08f")
+
+[node name="PilotCamera" type="Camera3D" parent="ShipBody"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2.2328627, 1.1905239)
+
+[node name="WingCamera" type="Camera3D" parent="ShipBody"]
+transform = Transform3D(-1, 0, 8.742278e-08, 0, 1, 0, -8.742278e-08, 0, -1, 2.6752856, 1.7970243, -4.6217165)
+
+[node name="Blocking" type="Node" parent="."]
+
+[node name="CSGBox3D2" type="CSGBox3D" parent="Blocking"]
+transform = Transform3D(24.58546, 0, 0, 0, 22.673998, 0, 0, 0, 20.932398, 218.00806, -8.322841, -139.72983)
+size = Vector3(0.5625, 0.47387695, 1)
+
+[node name="CSGBox3D3" type="CSGBox3D" parent="Blocking"]
+transform = Transform3D(30, 0, 0, 0, 30, 0, 0, 0, 30, 166.1061, -8.322841, -603.30396)
+size = Vector3(0.5625, 0.47387695, 1)
+
+[node name="CSGBox3D4" type="CSGBox3D" parent="Blocking"]
+transform = Transform3D(30, 0, 0, 0, 30, 0, 0, 0, 30, -150.96632, -8.322841, -274.3073)
+size = Vector3(0.5625, 0.47387695, 1)
+
+[node name="CSGBox3D5" type="CSGBox3D" parent="Blocking"]
+transform = Transform3D(30, 0, 0, 0, 30, 0, 0, 0, 30, -4.958481, -8.322841, -639.6134)
+size = Vector3(0.5625, 0.47387695, 1)
+
+[node name="CSGBox3D" type="CSGBox3D" parent="Blocking"]
+transform = Transform3D(64.370056, -859.30566, 507.39575, 65.57255, 510.99344, 857.0798, -995.76917, -21.899017, 89.23947, 1760.2356, 181.02081, 1557.4766)
+
+[node name="ShipHud" parent="." instance=ExtResource("7_g0dof")]
+aim_controller_path = NodePath("../ShipAimController")
+
+[node name="ShipAimController" parent="." instance=ExtResource("8_xibax")]
+
+[node name="CameraOperator" type="Node" parent="." node_paths=PackedStringArray("cameras")]
+script = ExtResource("2_nnxdh")
+cameras = [NodePath("../ShipBody/PilotCamera"), NodePath("../ShipBody/WingCamera"), NodePath("../CinematicCamera")]

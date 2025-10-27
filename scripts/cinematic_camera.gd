@@ -1,6 +1,6 @@
 extends Camera3D
 
-@export var target: RigidBody3D
+@export var target: Node3D
 @export var max_target_distance: float = 100
 @export var camera_spawn_distance: float = 40
 @export var camera_spawn_radius: float = 40
@@ -13,7 +13,7 @@ func _process(delta: float) -> void:
 	look_at(target.position)
 	
 	if position.distance_to(target.position) > max_target_distance:
-		position = target.position + random_on_sphere(camera_spawn_radius) + (target.linear_velocity.normalized() * camera_spawn_distance)
+		position = target.position + random_on_sphere(camera_spawn_radius) + ((target.global_transform.basis * Vector3.FORWARD).normalized() * camera_spawn_distance)
 		
 	
 

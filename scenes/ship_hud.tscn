@@ -5,6 +5,7 @@
 
 [node name="ShipHud" type="CanvasLayer"]
 script = ExtResource("1_s7xv2")
+aim_outline_width = 0.5
 
 [node name="ShipHudAim" type="Control" parent="."]
 layout_mode = 3
@@ -14,7 +15,6 @@ offset_bottom = 648.0
 script = ExtResource("1_vkyvg")
 
 [node name="DebugLabel" type="Label" parent="."]
-visible = false
 offset_right = 40.0
 offset_bottom = 23.0
 theme_override_font_sizes/font_size = 10
