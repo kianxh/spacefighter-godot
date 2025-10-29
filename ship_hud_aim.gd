@@ -3,10 +3,10 @@ extends Control
 class_name ShipHudAim
 
 @onready var hud: ShipHudCanvasLayer = $".."
-@onready var aim_input: AimInput = $"../../Controls/AimInput"
+@onready var aim_input: AimInput = $"../../Inputs/Aim"
 
 # --- Aim Config ---
-@export var outline_width: float = 0.5
+@export var outline_width: float = 1
 @export var outline_color_primary: Color
 @export var outline_color_secondary: Color = Color(1, 1, 1, 0.4)
 @export var cursor_radius: float = 10.0
@@ -38,9 +38,9 @@ func _draw() -> void:
 
 	# Rings
 	_draw_circle_outline(center, r_min, outline_color_secondary, outline_width)
-	_draw_circle_outline(center, r_max, outline_color_secondary, outline_width)
+	#_draw_circle_outline(center, r_max, outline_color_secondary, outline_width)
 	# Optional: visualize the clamp boundary (you had this in your last version)
-	_draw_circle_outline(center, r_cap, outline_color_secondary, outline_width)
+	#_draw_circle_outline(center, r_cap, outline_color_secondary, outline_width)
 
 	# Line center → cursor
 	draw_line(center, cursor_pos, outline_color_secondary, outline_width, true)

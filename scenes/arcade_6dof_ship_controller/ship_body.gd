@@ -1,7 +1,8 @@
 extends CharacterBody3D
 class_name ArcadeSixDofController
 
-@onready var aim_input: AimInput = $Controls/AimInput
+@onready var aim_input: AimInput = $Inputs/Aim
+@onready var throttle: ThrottleInput = $Inputs/Throttle
 
 
 @export var sway_speed: float = 20.0	# m/s along local +X/-X (sway)
@@ -13,12 +14,14 @@ class_name ArcadeSixDofController
 @export var roll_rate_deg: float = 180.0	# deg/s around local Z (roll)
 
 
+
 func _physics_process(delta: float) -> void:
 	# raw inputs (no smoothing)
 	var lin: Vector3 = get_movement_input()	# (sway, heave, surge)
 	var ang2: Vector3 = get_rotation_input()	# (pitch, yaw, roll)
 	var aim_cmd := aim_input.get_aim_direction() * aim_input.get_aim_strength()
 	var ang: Vector3 = Vector3(-aim_cmd.y, ang2.y, aim_cmd.x)
+	
 
 	# rotations in local space
 	if ang.x != 0.0:
@@ -42,10 +45,13 @@ func _physics_process(delta: float) -> void:
 # Returns inputs for linear movement as Vector3 (sway, heave & surge - in this order).
 func get_movement_input() -> Vector3:
 	var surge = Input.get_action_strength("ship_move_surge_reverse") - Input.get_action_strength("ship_move_surge_forward")
+	
+	var surge2 := -throttle.get_strength()
+	
 	var sway = Input.get_action_strength("ship_move_sway_right") - Input.get_action_strength("ship_move_sway_left")
 	var heave = Input.get_action_strength("ship_move_heave_up") - Input.get_action_strength("ship_move_heave_down")
 	
-	return Vector3(sway, heave, surge)
+	return Vector3(sway, heave, surge2)
 	
 # Returns inputs for rotations as Vector3 (pitch, yaw and roll - in this order)
 func get_rotation_input() -> Vector3:

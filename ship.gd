@@ -2,7 +2,6 @@
 extends RigidBody3D
 
 @onready var cam: Camera3D = $Camera3D
-@onready var aim: AimController = $ShipAimController
 
 # --- Roll tuning (resolution-agnostic) ---
 @export var roll_max_rate_deg: float = 180.0     # max commanded roll rate (deg/s) at full input

@@ -1,0 +1,7 @@
+[gd_resource type="Theme" load_steps=2 format=3 uid="uid://cc4d0wqu3jwen"]
+
+[ext_resource type="FontFile" uid="uid://drb601bolbdg8" path="res://assets/fonts/SUSE_Mono/static/SUSEMono-Regular.ttf" id="1_hwnnp"]
+
+[resource]
+default_font = ExtResource("1_hwnnp")
+default_font_size = 16

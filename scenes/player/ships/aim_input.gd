@@ -2,6 +2,7 @@
 extends Node
 class_name AimInput
 
+
 # --- Config shared by HUD + Ship ---
 @export var cursor_boundary_radius: float = 240.0
 @export var min_roll_radius: float = 80.0

@@ -123,3 +123,66 @@ toggle_mouse_capture={
 "events": [Object(InputEventKey,"resource_local_to_scene":false,"resource_name":"","device":-1,"window_id":0,"alt_pressed":false,"shift_pressed":false,"ctrl_pressed":false,"meta_pressed":false,"pressed":false,"keycode":0,"physical_keycode":4194305,"key_label":0,"unicode":0,"location":0,"echo":false,"script":null)
 ]
 }
+ship_throttle_increase={
+"deadzone": 0.2,
+"events": [Object(InputEventKey,"resource_local_to_scene":false,"resource_name":"","device":-1,"window_id":0,"alt_pressed":false,"shift_pressed":false,"ctrl_pressed":false,"meta_pressed":false,"pressed":false,"keycode":0,"physical_keycode":87,"key_label":0,"unicode":119,"location":0,"echo":false,"script":null)
+]
+}
+ship_throttle_decrease={
+"deadzone": 0.2,
+"events": [Object(InputEventKey,"resource_local_to_scene":false,"resource_name":"","device":-1,"window_id":0,"alt_pressed":false,"shift_pressed":false,"ctrl_pressed":false,"meta_pressed":false,"pressed":false,"keycode":0,"physical_keycode":83,"key_label":0,"unicode":115,"location":0,"echo":false,"script":null)
+]
+}
+ship_throttle_set_25_neg={
+"deadzone": 0.2,
+"events": []
+}
+ship_throttle_set_33_neg={
+"deadzone": 0.2,
+"events": []
+}
+ship_throttle_set_50_neg={
+"deadzone": 0.2,
+"events": []
+}
+ship_throttle_set_67_neg={
+"deadzone": 0.2,
+"events": []
+}
+ship_throttle_set_75_neg={
+"deadzone": 0.2,
+"events": []
+}
+ship_throttle_set_100_neg={
+"deadzone": 0.2,
+"events": []
+}
+ship_throttle_set_0={
+"deadzone": 0.2,
+"events": [Object(InputEventKey,"resource_local_to_scene":false,"resource_name":"","device":-1,"window_id":0,"alt_pressed":false,"shift_pressed":false,"ctrl_pressed":false,"meta_pressed":false,"pressed":false,"keycode":0,"physical_keycode":88,"key_label":0,"unicode":120,"location":0,"echo":false,"script":null)
+]
+}
+ship_throttle_set_25_pos={
+"deadzone": 0.2,
+"events": []
+}
+ship_throttle_set_33_pos={
+"deadzone": 0.2,
+"events": []
+}
+ship_throttle_set_50_pos={
+"deadzone": 0.2,
+"events": []
+}
+ship_throttle_set_67_pos={
+"deadzone": 0.2,
+"events": []
+}
+ship_throttle_set_75_pos={
+"deadzone": 0.2,
+"events": []
+}
+ship_throttle_set_100_pos={
+"deadzone": 0.2,
+"events": []
+}

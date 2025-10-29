@@ -11,8 +11,8 @@ class_name ShipHudCanvasLayer
 @export var global_debug: bool = false
 
 
+@onready var aim_input: AimInput = $"../Inputs/Aim"
 
-@onready var aim_input: AimInput = $"../Controls/AimInput"
 
 
 func _ready() -> void:

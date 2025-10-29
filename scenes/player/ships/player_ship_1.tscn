@@ -1,4 +1,4 @@
-[gd_scene load_steps=12 format=4 uid="uid://qokficmdqa3l"]
+[gd_scene load_steps=31 format=4 uid="uid://qokficmdqa3l"]
 
 [ext_resource type="Script" uid="uid://u34t7wak84o3" path="res://scenes/arcade_6dof_ship_controller/ship_body.gd" id="1_ftk6c"]
 [ext_resource type="Texture2D" uid="uid://ch1rsdy1h7lwe" path="res://assets/Free Battle Spaceship 3D Models/T_Spase_64.png" id="2_jjtqa"]
@@ -7,6 +7,12 @@
 [ext_resource type="Script" uid="uid://pskmqt5vu2jl" path="res://scenes/player/ships/aim_input.gd" id="5_sshk3"]
 [ext_resource type="Script" uid="uid://bvioyqh821inb" path="res://scenes/player/ships/ship_hud.gd" id="6_5pr0d"]
 [ext_resource type="Script" uid="uid://cbo5i2qal32bt" path="res://ship_hud_aim.gd" id="7_mylo6"]
+[ext_resource type="Theme" uid="uid://cc4d0wqu3jwen" path="res://themes/default_ui_theme.tres" id="7_qkffo"]
+[ext_resource type="Script" uid="uid://bqksye23kq2t8" path="res://scenes/player/ships/value_throttle.gd" id="8_1ld6v"]
+[ext_resource type="Script" uid="uid://h1sd45dh1xhj" path="res://scenes/player/ships/value_aim.gd" id="8_lvomh"]
+[ext_resource type="Script" uid="uid://b0q0uoofauhn3" path="res://scenes/player/ships/throttle.gd" id="9_qkffo"]
+[ext_resource type="Script" uid="uid://v60rmlstemsc" path="res://scenes/player/ships/transforms_(panel_container).gd" id="9_s25w7"]
+[ext_resource type="Script" uid="uid://3l8whsl20hrs" path="res://scenes/player/ships/speed_indicator.gd" id="11_htaed"]
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_13m8i"]
 resource_name = "Spaceship_mat"
@@ -52,6 +58,139 @@ shadow_mesh = SubResource("ArrayMesh_hx3w8")
 [sub_resource type="ConvexPolygonShape3D" id="ConvexPolygonShape3D_ul08f"]
 points = PackedVector3Array(2.767188, 0.11377114, -6.8970776, 2.7618456, 0.068591714, -6.878174, 2.7484922, 0.08770609, -6.8916764, 2.713769, 0.08770609, -6.8876257, 2.7271223, 0.12593482, -6.888976, 8.405721, 5.7142816, -6.3637285, 9.487487, 5.711675, -6.3839827, 9.476802, 4.4562087, -6.386683, 2.8767004, -0.042619172, -6.574368, 2.7191095, 0.0659852, -6.8633213, 9.960258, 4.4562087, -5.9573035, -7.8982124, 1.8809816, -3.578163, -12.139799, 3.9696608, -3.3945289, -13.510035, 4.669073, -3.329717, -13.49668, 4.68645, -3.3378184, -13.512706, 4.729892, -3.3351178, 2.4787188, 2.353628, -6.31647, -13.611534, 5.9367037, -3.1271794, 6.7016077, 6.943683, -5.2389703, -13.560784, 5.9679813, -3.1190777, 4.417882, 6.9384704, -4.9851236, 9.450091, 5.8029027, -6.298917, 10.008336, 5.802034, -5.880339, 10.037717, 5.711675, -5.954603, 9.487487, 4.9132156, -6.3839827, 6.9847364, 6.943683, -5.2389703, 10.016349, 5.097409, -5.954603, 10.011006, 4.9844604, -5.954603, 10.005666, 4.9132156, -5.954603, 2.8767004, -0.042619172, 6.573017, 2.831294, -0.04435684, -6.559515, 10.299478, 4.4562087, -5.2727265, 10.267425, 4.417111, -5.214666, 11.277072, 4.4562087, -2.990804, 11.52815, 4.4562087, -1.8079848, 11.552188, 4.4562087, -0.98433256, 9.666446, 3.44836, 0, -7.852805, 1.8644737, -3.578163, 10.577264, 5.711675, -5.270026, 13.523404, 7.0383863, -1.1193576, 13.531417, 7.024485, -1.1004539, -7.9062257, 1.8497036, -3.4026303, -13.472641, 4.590009, -3.1609356, -13.512706, 4.629976, -3.1730878, -13.518048, 4.6308446, -3.1555345, -13.531404, 4.727285, -3.320265, -13.62756, 5.934097, -3.1123266, -13.614205, 5.965375, -3.1055753, -13.598179, 5.9592934, -3.1177275, 6.7122927, 7.014059, -5.1525545, -13.560784, 5.975801, -3.1015246, 4.417882, 6.944552, -4.977022, 8.859796, 8.3972435, -2.5398207, 9.380645, 8.486733, -2.241415, 9.428723, 8.4311285, -2.300826, 6.9740515, 7.014059, -5.1525545, 2.7618456, 0.068591714, 6.8768234, 2.7191095, 0.0659852, 6.861971, 2.831294, -0.04435684, 6.5581646, 11.552188, 4.4562087, 0.98298216, 11.52815, 4.4562087, 1.8066349, 11.277072, 4.4562087, 2.9894533, 10.267425, 4.417111, 5.213316, 10.299478, 4.4562087, 5.2713766, 9.960258, 4.4562087, 5.9559526, -7.868831, 1.80018, -3.2108948, 11.570886, 4.9132156, -2.9881036, 12.588546, 5.5292196, -1.3597021, 12.567178, 5.338945, -0.781795, 12.567178, 5.2842083, 0, -7.9142385, 1.8158189, -3.2108948, 13.635587, 7.213022, -0.6211152, 13.6435995, 7.1956453, -0.61031294, 9.783971, 8.518881, -1.8052845, 12.591216, 5.3120112, 0, 12.591216, 5.364141, -0.766942, 12.609914, 5.549203, -1.3367476, -13.480654, 4.5561247, -2.9692001, -13.526061, 4.59696, -2.963799, -13.547429, 4.6629915, -2.952997, -13.643586, 5.869803, -2.7450585, -13.62756, 5.934097, 3.1109762, -13.614205, 5.965375, 3.1042252, 6.7176332, 7.067927, -5.0499353, -13.560784, 5.975801, 3.100174, 8.758296, 8.823842, -0.24574566, 8.723573, 8.815153, -0.5103946, 8.622075, 8.787351, -0.8074498, 8.477839, 8.738696, -1.0275402, 8.210736, 8.677009, -1.1679664, 8.557969, 8.729138, -1.0856013, 8.779664, 8.788219, -0.8020487, 2.767188, 0.11377114, 6.8970776, 2.7484922, 0.08770609, 6.8903265, 2.713769, 0.08770609, 6.8862753, 9.476802, 4.4562087, 6.385333, -7.8982124, 1.8809816, 3.5768127, -7.852805, 1.8644737, 3.5768127, -7.868831, 1.80018, 3.2095442, 12.567178, 5.338945, 0.7804446, 12.588546, 5.5292196, 1.3583517, 11.570886, 4.9132156, 2.9867535, 13.531417, 7.024485, 1.0991035, 13.523404, 7.0383863, 1.1180067, 10.577264, 5.711675, 5.268676, 10.005666, 4.9132156, 5.953253, 12.591216, 5.364141, 0.7655916, -7.9142385, 1.8158189, 3.2095442, 13.635587, 7.2625456, 0, 10.043059, 8.521487, -1.2624841, 13.640929, 7.2434316, 0, 13.6435995, 7.1956453, 0.60896254, 8.899861, 8.820367, -0.5022931, -13.480654, 4.5561247, 2.9678497, -13.526061, 4.59696, 2.962449, -13.547429, 4.6629915, 2.9516468, -13.643586, 5.869803, 2.7437077, -13.611534, 5.9367037, 3.1258287, -13.531404, 4.727285, 3.3189144, -13.598179, 5.9592934, 3.1163769, -13.560784, 5.9679813, 3.1177273, 4.417882, 6.944552, 4.975672, 8.859796, 8.3972435, 2.5384703, 8.210736, 8.677009, 1.1666164, 8.477839, 8.738696, 1.0261898, 8.622075, 8.787351, 0.8060994, 8.723573, 8.815153, 0.5090442, 8.758296, 8.823842, 0.24439526, 8.939927, 8.831661, -0.24169493, -13.512706, 4.729892, 3.333767, 9.487487, 5.711675, 6.3826323, 8.405721, 5.7142816, 6.362378, -13.49668, 4.68645, 3.3364677, -13.510035, 4.669073, 3.3283663, -12.139799, 3.9696608, 3.393178, 10.011006, 4.9844604, 5.953253, 10.016349, 5.097409, 5.953253, 10.037717, 5.711675, 5.953253, 9.487487, 4.9132156, 6.3826323, -13.472641, 4.590009, 3.159585, -7.9062257, 1.8497036, 3.4012794, 12.609914, 5.549203, 1.3353977, 10.008336, 5.802034, 5.878989, 13.635587, 7.213022, 0.6197648, 9.783971, 8.518881, 1.8039341, 9.380645, 8.486733, 2.2400646, 9.428723, 8.4311285, 2.2994757, 10.043059, 8.521487, 1.2611332, -13.518048, 4.6308446, 3.1541843, 4.417882, 6.9384704, 4.983773, 6.7122927, 7.014059, 5.151204, 6.7176332, 7.067927, 5.048585, 6.9740515, 7.014059, 5.151204, 9.450091, 5.8029027, 6.2975664, 8.557969, 8.729138, 1.0842509, 8.779664, 8.788219, 0.8006983, 8.899861, 8.820367, 0.5009427, 8.939927, 8.831661, 0.24034452, 6.9847364, 6.943683, 5.2376204, 6.7016077, 6.943683, 5.2376204, -13.512706, 4.629976, 3.1717377)
 
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_5pr0d"]
+bg_color = Color(0, 0, 0, 0.3)
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_2t676"]
+
+[sub_resource type="ArrayMesh" id="ArrayMesh_kxuov"]
+_surfaces = [{
+"aabb": AABB(-3.318859, -1.3333334, -4.128745, 6.637718, 2, 7.9901295),
+"format": 34359742465,
+"index_count": 72,
+"index_data": PackedByteArray("AAABAAIAAgADAAAAAQAAAAQABAAFAAEABgABAAUABQAHAAYAAQAGAAgACAACAAEAAwACAAkACQACAAgACQAKAAMACAALAAkADAAKAAkACQALAA0ACQAOAAwADQAOAAkADwAMAA4AEAAOAA0ADgAQAA8AEQAPABAADQASABAAEAATABEAEwAQABIAEgAUABMA"),
+"primitive": 3,
+"uv_scale": Vector4(0, 0, 0, 0),
+"vertex_count": 21,
+"vertex_data": PackedByteArray("MGhUQKqqKj8YW+0+NFE0QKqqKj9YeVs///9/P6qqKj/SelDA//9/P6qqKj+uHoTAMGhUQKqqKj/rIHdANFE0QKqqKj/rIHdAPb4KQKuqqr/KB68/Pb4KQKuqqr/rIHdA9ZUvP6uqqr9dPQjAq6qqs6qqKj/SelDAq6qqs6qqKj+uHoTAq6qqs6uqqr9dPQjAAQCAv6qqKj+uHoTA95Uvv6uqqr9dPQjAAQCAv6qqKj/SelDAMGhUwKqqKj8YW+0+NFE0wKqqKj9YeVs/MGhUwKqqKj/rIHdAPb4KwKuqqr/KB68/NFE0wKqqKj/rIHdAPb4KwKuqqr/rIHdA")
+}]
+blend_shape_mode = 0
+
+[sub_resource type="ArrayMesh" id="ArrayMesh_ayvq5"]
+resource_name = "Cube_016"
+_surfaces = [{
+"aabb": AABB(-3.318859, -1.3333334, -4.128745, 6.637718, 2, 7.9901295),
+"attribute_data": PackedByteArray("AAAgPwAAAD8AACA/AACAPgAAID8AAIA+AAAgPwAAAD8AACA/AACAPgAAwD4AAIA+AADAPgAAgD4AACA/AACAPgAAQD8AAIA+AABAPwAAAD8AACA/AAAAPwAAID8AAIA+AAAgPwAAAD8AACA/AACAPgAAID8AAAA/AAAgPwAAgD4AACA/AAAAPgAAID8AAIA+AADAPgAAgD4AAMA+AAAAPgAAID8AAIA+AADAPgAAgD4AAMA+AACAPgAAID8AAIA+AAAgPwAAAD8AACA/AACAPgAAID8AAIA+AAAgPwAAAD8AAMA+AACAPgAAwD4AAIA+AAAgPwAAgD4AACA/AACAPgAAID8AAAA+AADAPgAAAD4AAMA+AACAPgAAID8AAIA+AADAPgAAgD4AAMA+AACAPgAAID8AAIA+AAAgPwAAgD4AACA/AACAPgAAID8AAIA+AAAgPwAAAD8AACA/AAAAPw=="),
+"format": 34359742487,
+"index_count": 72,
+"index_data": PackedByteArray("AAABAAIAAgADAAAABAAFAAYABgAHAAQACAAJAAoACgALAAgADAAJAAgACAANAAwADgAMAA0ADQAPAA4AEAARABIAEgATABAAFAAVABYAFgAXABQAGAAZABoAGgAbABgAHAAdAB4AHgAfABwAIAAhACIAIgAjACAAJAAlACYAJgAnACQAKAApACoAKgArACgA"),
+"material": SubResource("StandardMaterial3D_2t676"),
+"primitive": 3,
+"uv_scale": Vector4(0, 0, 0, 0),
+"vertex_count": 44,
+"vertex_data": PackedByteArray("MGhUQKqqKj8YW+0+NFE0QKqqKj9YeVs///9/P6qqKj/SelDA//9/P6qqKj+uHoTANFE0QKqqKj9YeVs/Pb4KQKuqqr/KB68/9ZUvP6uqqr9dPQjA//9/P6qqKj/SelDAq6qqs6qqKj/SelDAq6qqs6qqKj+uHoTA//9/P6qqKj+uHoTA//9/P6qqKj/SelDAAQCAv6qqKj+uHoTAAQCAv6qqKj/SelDAMGhUwKqqKj8YW+0+NFE0wKqqKj9YeVs/q6qqs6qqKj/SelDA//9/P6qqKj/SelDA9ZUvP6uqqr9dPQjAq6qqs6uqqr9dPQjANFE0QKqqKj/rIHdAPb4KQKuqqr/rIHdAPb4KQKuqqr/KB68/NFE0QKqqKj9YeVs/MGhUQKqqKj/rIHdANFE0QKqqKj/rIHdANFE0QKqqKj9YeVs/MGhUQKqqKj8YW+0+95Uvv6uqqr9dPQjAPb4KwKuqqr/KB68/NFE0wKqqKj9YeVs/AQCAv6qqKj/SelDAq6qqs6qqKj/SelDAq6qqs6uqqr9dPQjA95Uvv6uqqr9dPQjAAQCAv6qqKj/SelDAPb4KwKuqqr/KB68/Pb4KwKuqqr/rIHdANFE0wKqqKj/rIHdANFE0wKqqKj9YeVs/NFE0wKqqKj9YeVs/NFE0wKqqKj/rIHdAMGhUwKqqKj/rIHdAMGhUwKqqKj8YW+0+/3///////7//f///////v/9///////+//3///////7/iOuyc////P+I67Jz///8/4jrsnP///z/iOuyc////P/9///////8//3///////z//f///AAD/v/9///8AAP+//3///////z//f///////P/9///////+//3///////7//fyyuW7Qp+/9/LK6ktSj6/38srimwcf7/fyyuLK7//2EfYZ////+/YR9hn////79hH2Gf////v2EfYZ////+//3///////7//f///////v/9///////+//3///////78cxeyc////PxzF7Jz///8/HMXsnP///z8cxeyc////P/9/LK6jS9UE/38sriyuAAD/fyyu1U+NAf9/LK5aStYFneBhn////7+d4GGf////v53gYZ////+/neBhn////7//f///////v/9///////+//3///////7//f///////vw==")
+}]
+blend_shape_mode = 0
+shadow_mesh = SubResource("ArrayMesh_kxuov")
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_giv6i"]
+
+[sub_resource type="ArrayMesh" id="ArrayMesh_enqkv"]
+_surfaces = [{
+"aabb": AABB(-3.318859, -1.650172, -3.1732707, 6.637718, 3.2657871, 6.5141163),
+"format": 34359742465,
+"index_count": 51,
+"index_data": PackedByteArray("AAABAAIAAgADAAAABAAAAAMABAABAAAAAwAFAAQABgAEAAUABAAGAAEABQAHAAYABgAIAAEAAgABAAkACQAKAAIACwAJAAEACgAJAAsACAALAAEACwAMAAoADAALAAgACAANAAwA"),
+"primitive": 3,
+"uv_scale": Vector4(0, 0, 0, 0),
+"vertex_count": 14,
+"vertex_data": PackedByteArray("JQ4tP9Y407+U/yTAJUmSstY407+U/yTAJUmSsnrMzj/eFkvAAACAP3rMzj/eFkvAJZYPQNY407/MuwY/MGhUQHrMzj/Eo7U/JZYPQJS9w79q0FVAMGhUQHrMzj9q0FVAJZYPwJS9w79q0FVAJQ4tv9Y407+U/yTAAACAv3rMzj/eFkvAJZYPwNY407/MuwY/MGhUwHrMzj/Eo7U/MGhUwHrMzj9q0FVA")
+}]
+blend_shape_mode = 0
+
+[sub_resource type="ArrayMesh" id="ArrayMesh_f0fi7"]
+resource_name = "Cube_017"
+_surfaces = [{
+"aabb": AABB(-3.318859, -1.650172, -3.1732707, 6.637718, 3.2657871, 6.5141163),
+"attribute_data": PackedByteArray("AAAAAAAAgD8AAAAAAACAPwAAAAAAAIA/AAAAAAAAgD8AAAAAAACAPwAAAAAAAIA/AAAAAAAAgD8AAAAAAACAPwAAAAAAAIA/AAAAAAAAgD8AAAAAAACAPwAAAAAAAIA/AAAAAAAAgD8AAAAAAACAPwAAAAAAAIA/AAAAAAAAgD8AAAAAAACAPwAAAAAAAIA/AAAAAAAAgD8AAAAAAACAPwAAAAAAAIA/AAAAAAAAgD8AAAAAAACAPwAAAAAAAIA/AAAAAAAAgD8AAAAAAACAPwAAAAAAAIA/AAAAAAAAgD8AAAAAAACAPw=="),
+"format": 34359742487,
+"index_count": 51,
+"index_data": PackedByteArray("AAABAAIAAgADAAAAAgABAAQABAAFAAIABgAHAAgACAAJAAYACgALAAwADAANAAoADgAPABAAEAARAA4AEgATABQAFAAVABIAFgAXABgAFgAZABcAGQAaABcAGgAbABcAGwAcABcA"),
+"material": SubResource("StandardMaterial3D_giv6i"),
+"primitive": 3,
+"uv_scale": Vector4(0, 0, 0, 0),
+"vertex_count": 29,
+"vertex_data": PackedByteArray("JQ4tP9Y407+U/yTAJUmSstY407+U/yTAJUmSsnrMzj/eFkvAAACAP3rMzj/eFkvAJQ4tv9Y407+U/yTAAACAv3rMzj/eFkvAJZYPQNY407/MuwY/JQ4tP9Y407+U/yTAAACAP3rMzj/eFkvAMGhUQHrMzj/Eo7U/JZYPQJS9w79q0FVAJZYPQNY407/MuwY/MGhUQHrMzj/Eo7U/MGhUQHrMzj9q0FVAAACAv3rMzj/eFkvAJQ4tv9Y407+U/yTAJZYPwNY407/MuwY/MGhUwHrMzj/Eo7U/JZYPwJS9w79q0FVAMGhUwHrMzj9q0FVAMGhUwHrMzj/Eo7U/JZYPwNY407/MuwY/JZYPQNY407/MuwY/JUmSstY407+U/yTAJQ4tP9Y407+U/yTAJZYPQJS9w79q0FVAJZYPwJS9w79q0FVAJZYPwNY407/MuwY/JQ4tv9Y407+U/yTA/3+6k////z//f7qT////P/9/upP///8//3+6k////z//f7qT////P/9/upP///8/iTRtjv///z+JNG2O////P4k0bY7///8/iTRtjv///z8IINmg////vwgg2aD///+/CCDZoP///78IINmg////v3XLbY7///8/dcttjv///z91y22O////P3XLbY7///8/9t/ZoP///7/239mg////v/bf2aD///+/9t/ZoP///78fg///////vx+D//////+/H4P//////78fg///////vx+D//////+/H4P//////78fg///////vw==")
+}]
+blend_shape_mode = 0
+shadow_mesh = SubResource("ArrayMesh_enqkv")
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_8tbob"]
+
+[sub_resource type="ArrayMesh" id="ArrayMesh_24otb"]
+_surfaces = [{
+"aabb": AABB(-2.9410439, -0.40622574, -3.315157, 5.8820877, 0.664733, 7.5520067),
+"format": 34359742465,
+"index_count": 63,
+"index_data": PackedByteArray("BwACAAIAAgAHAAcAAgAHAAAAAAABAAIAAAAHAAUABQAGAAAADQAHAAIADQAFAAcADQACAAEAAQADAA0ADQAIAAUADQADAAQABAAJAA0ADQAMAAgADQAJAAwACQAEAAoACgALAAgACAAMAAoACgAMAAkACQAJAAwADAAMAAkA"),
+"lods": [0.00040207803, PackedByteArray("AAABAAIAAQADAAIAAgADAAQABQAGAAAAAAAHAAUAAgAHAAAAAgAFAAcAAgAIAAUABAAJAAIACQAEAAoACgALAAgAAgAJAAwACgAMAAkAAgAMAAgACAAMAAoA")],
+"primitive": 3,
+"uv_scale": Vector4(0, 0, 0, 0),
+"vertex_count": 14,
+"vertex_data": PackedByteArray("EDo8QNL8z75oiJ4/iANuP9L8z76IK1TAAACAPxBbhD4wczjAOY7jstL8z76IK1TAiANuv9L8z76IK1TANFE0QBBbhD5GlIdAEDo8QNL8z75GlIdANFE0QBBbhD7wy50/NFE0wBBbhD5GlIdAAACAvxBbhD4wczjAEDo8wNL8z75oiJ4/EDo8wNL8z75GlIdANFE0wBBbhD7wy50/OY7jshBbhD4wczjA")
+}]
+blend_shape_mode = 0
+
+[sub_resource type="ArrayMesh" id="ArrayMesh_at8hy"]
+resource_name = "Cube_018"
+_surfaces = [{
+"aabb": AABB(-2.9410439, -0.40622574, -3.315157, 5.8820877, 0.664733, 7.5520067),
+"attribute_data": PackedByteArray("AAAAAAAAgD8AAAAAAACAPwAAAAAAAIA/AAAAAAAAgD8AAAAAAACAPwAAAAAAAIA/AAAAAAAAgD8AAAAAAACAPwAAAAAAAIA/AAAAAAAAgD8AAAAAAACAPwAAAAAAAIA/AAAAAAAAgD8AAAAAAACAPwAAAAAAAIA/AAAAAAAAgD8AAAAAAACAPwAAAAAAAIA/AAAAAAAAgD8AAAAAAACAPwAAAAAAAIA/AAAAAAAAgD8AAAAAAACAPwAAAAAAAIA/AAAAAAAAgD8AAAAAAACAPwAAAAAAAIA/AAAAAAAAgD8AAAAAAACAPwAAAAAAAIA/AAAAAAAAgD8AAAAAAACAPwAAAAAAAIA/AAAAAAAAgD8AAAAAAACAPw=="),
+"format": 34359742487,
+"index_count": 63,
+"index_data": PackedByteArray("GwAcABwAHAAbABsAAAABAAIAAgADAAAABAAFAB0AHQAGAAQACQAKAAsACwAMAAkAHgAeAB8AHwAfAB4ADQAOAA8ADwAQAA0ABwAIACAAIAAhAAcAEQASABMAEwAUABEAIgAWABcAIgAZABYAIgAaABkAIgAXABgAIgAYABUA"),
+"lods": [0.00040207803, PackedByteArray("AAABAAIAAgADAAAABAAFAAYABgAFAAcABwAIAAYACQAKAAsACwAMAAkADQAOAA8ADwAQAA0AEQASABMAEwAUABEAFQAWABcAFQAXABgAFQAZABYAFQAaABkA")],
+"material": SubResource("StandardMaterial3D_8tbob"),
+"primitive": 3,
+"uv_scale": Vector4(0, 0, 0, 0),
+"vertex_count": 35,
+"vertex_data": PackedByteArray("EDo8QNL8z75oiJ4/iANuP9L8z76IK1TAAACAPxBbhD4wczjANFE0QBBbhD7wy50/iANuP9L8z76IK1TAOY7jstL8z76IK1TAAACAPxBbhD4wczjAiANuv9L8z76IK1TAAACAvxBbhD4wczjANFE0QBBbhD5GlIdAEDo8QNL8z75GlIdAEDo8QNL8z75oiJ4/NFE0QBBbhD7wy50/EDo8wNL8z75oiJ4/NFE0wBBbhD7wy50/AACAvxBbhD4wczjAiANuv9L8z76IK1TAEDo8wNL8z75oiJ4/EDo8wNL8z75GlIdANFE0wBBbhD5GlIdANFE0wBBbhD7wy50/AACAPxBbhD4wczjANFE0wBBbhD5GlIdANFE0QBBbhD5GlIdANFE0QBBbhD7wy50/NFE0wBBbhD7wy50/AACAvxBbhD4wczjANFE0QBBbhD7wy50/AACAPxBbhD4wczjAOY7jshBbhD4wczjANFE0wBBbhD7wy50/AACAvxBbhD4wczjAOY7jshBbhD4wczjAOY7jstL8z76IK1TAOY7jshBbhD4wczjAKzGkcf///z8rMaRx////PysxpHH///8/KzGkcf///z//f4BN////P/9/gE3///8//3+ATf///z//f4BN////P/9/gE3///8/ERTua////78RFO5r////vxEU7mv///+/ERTua////7/TzqRx////P9POpHH///8/086kcf///z/TzqRx////P+3r7mv///+/7evua////7/t6+5r////v+3r7mv///+//38AAP///7//fwAA////v/9/AAD///+//38AAP///7//fwAA////v/9/AAD///+//3///////7//f///////v/9/gE3///8//3///////7//f///////v/9/gE3///8//3+ATf///z//fwAA////vw==")
+}]
+blend_shape_mode = 0
+shadow_mesh = SubResource("ArrayMesh_24otb")
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_sc742"]
+
+[sub_resource type="ArrayMesh" id="ArrayMesh_cbecf"]
+_surfaces = [{
+"aabb": AABB(-0.92460847, -1.2984546e-08, -0.77576196, 1.8492169, 1e-05, 1.4560939),
+"format": 34359742465,
+"index_count": 24,
+"index_data": PackedByteArray("AAABAAIAAgADAAAABAACAAEAAQAFAAQABAAFAAYABgAHAAQACAAHAAYABgAJAAgA"),
+"primitive": 3,
+"uv_scale": Vector4(0, 0, 0, 0),
+"vertex_count": 10,
+"vertex_data": PackedByteArray("JAIgP/xcfjJWmEa/JLNsP0ik5DFOg7K+JLNsv0Ck5DFPg7K+JAIgv/xcfjJWmEa/JLNsvyhxPzEWeBW+JLNsPyhxPzEYeBW+DsFRP794QbLEDRc/DsFRv794QbLEDRc/nvBIv6MSX7I8Ki4/nvBIP6MSX7I8Ki4/")
+}]
+blend_shape_mode = 0
+
+[sub_resource type="ArrayMesh" id="ArrayMesh_7mutq"]
+resource_name = "Plane"
+_surfaces = [{
+"aabb": AABB(-0.92460847, -1.2984546e-08, -0.77576196, 1.8492169, 1e-05, 1.4560939),
+"attribute_data": PackedByteArray("AACAPwAAAAAAAIA/RC6WPgAAAABELpY+AAAAAAAAAAAAAIA/RC6WPgAAgD/Wc90+AAAAANRz3T4AAAAARC6WPgAAAADUc90+AACAP9Zz3T4AAIA/wSBwPwAAAADBIHA/AACAP8EgcD8AAIA/AACAPwAAAAAAAIA/AAAAAMEgcD8="),
+"format": 34359742487,
+"index_count": 24,
+"index_data": PackedByteArray("AAABAAIAAgADAAAABAAFAAYABgAHAAQACAAJAAoACgALAAgADAANAA4ADgAPAAwA"),
+"material": SubResource("StandardMaterial3D_sc742"),
+"primitive": 3,
+"uv_scale": Vector4(0, 0, 0, 0),
+"vertex_count": 16,
+"vertex_data": PackedByteArray("JAIgP/xcfjJWmEa/JLNsP0ik5DFOg7K+JLNsv0Ck5DFPg7K+JAIgv/xcfjJWmEa/JLNsP0ik5DFOg7K+JLNsPyhxPzEYeBW+JLNsvyhxPzEWeBW+JLNsv0Ck5DFPg7K+JLNsvyhxPzEWeBW+JLNsPyhxPzEYeBW+DsFRP794QbLEDRc/DsFRv794QbLEDRc/DsFRP794QbLEDRc/nvBIP6MSX7I8Ki4/nvBIv6MSX7I8Ki4/DsFRv794QbLEDRc//3///////7//f///////v/9///////+//3///////7//f///////v/9///////+//3///////7//f///////v/9///////+//3///////7//f///////v/9///////+//3///////7//f///////v/9///////+//3///////78=")
+}]
+blend_shape_mode = 0
+shadow_mesh = SubResource("ArrayMesh_cbecf")
+
 [node name="ShipBody" type="CharacterBody3D"]
 script = ExtResource("1_ftk6c")
 
@@ -64,14 +203,11 @@ skeleton = NodePath("")
 transform = Transform3D(-4.371139e-08, 0, -1, 0, 1, 0, 1, 0, -4.371139e-08, 0, -5.0962696, 0)
 shape = SubResource("ConvexPolygonShape3D_ul08f")
 
-[node name="PilotCamera" type="Camera3D" parent="."]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2.577449, 1.1905239)
-
 [node name="WingCamera" type="Camera3D" parent="."]
-transform = Transform3D(-1, 0, 8.742278e-08, 0, 1, 0, -8.742278e-08, 0, -1, 2.6752856, 1.7970243, -4.6217165)
+transform = Transform3D(-1, 0, 8.742278e-08, 0, 1, 0, -8.742278e-08, 0, -1, 2.6752856, 1.7970243, -5.5996)
 
 [node name="CinematicCamera" parent="." node_paths=PackedStringArray("target") instance=ExtResource("3_jjtqa")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -0.9778831)
 top_level = true
 target = NodePath("..")
 
@@ -79,22 +215,235 @@ target = NodePath("..")
 
 [node name="CameraOperator" type="Node" parent="Controls" node_paths=PackedStringArray("cameras")]
 script = ExtResource("3_l5vyq")
-cameras = [NodePath("../../PilotCamera"), NodePath("../../WingCamera"), NodePath("../../CinematicCamera")]
+cameras = [NodePath("../../Cockpit/PilotCamera"), NodePath("../../WingCamera"), NodePath("../../CinematicCamera")]
 
-[node name="AimInput" type="Node" parent="Controls"]
-script = ExtResource("5_sshk3")
-
-[node name="Hud" type="CanvasLayer" parent="."]
+[node name="CanvasLayer" type="CanvasLayer" parent="."]
 script = ExtResource("6_5pr0d")
 
-[node name="AimDisplay" type="Control" parent="Hud"]
+[node name="Ship Dev HUD" type="Control" parent="CanvasLayer"]
 layout_mode = 3
-anchors_preset = 0
-offset_right = 1152.0
-offset_bottom = 648.0
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme = ExtResource("7_qkffo")
+
+[node name="SafeArea (MarginContainer)" type="MarginContainer" parent="CanvasLayer/Ship Dev HUD"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/margin_left = 24
+theme_override_constants/margin_top = 24
+theme_override_constants/margin_right = 24
+theme_override_constants/margin_bottom = 24
+
+[node name="Rows (VBoxContainer)" type="VBoxContainer" parent="CanvasLayer/Ship Dev HUD/SafeArea (MarginContainer)"]
+layout_mode = 2
+
+[node name="TopRow (HBoxContainer)" type="HBoxContainer" parent="CanvasLayer/Ship Dev HUD/SafeArea (MarginContainer)/Rows (VBoxContainer)"]
+layout_mode = 2
+size_flags_vertical = 3
+
+[node name="MiddleRow (HBoxContainer)" type="HBoxContainer" parent="CanvasLayer/Ship Dev HUD/SafeArea (MarginContainer)/Rows (VBoxContainer)"]
+layout_mode = 2
+size_flags_vertical = 3
+size_flags_stretch_ratio = 3.0
+
+[node name="BottomRow (HBoxContainer)" type="HBoxContainer" parent="CanvasLayer/Ship Dev HUD/SafeArea (MarginContainer)/Rows (VBoxContainer)"]
+layout_mode = 2
+size_flags_vertical = 0
+
+[node name="Inputs (PanelContainer)" type="PanelContainer" parent="CanvasLayer/Ship Dev HUD/SafeArea (MarginContainer)/Rows (VBoxContainer)/BottomRow (HBoxContainer)"]
+layout_mode = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_5pr0d")
+
+[node name="MarginContainer" type="MarginContainer" parent="CanvasLayer/Ship Dev HUD/SafeArea (MarginContainer)/Rows (VBoxContainer)/BottomRow (HBoxContainer)/Inputs (PanelContainer)"]
+layout_mode = 2
+theme_override_constants/margin_left = 6
+theme_override_constants/margin_top = 2
+theme_override_constants/margin_right = 6
+theme_override_constants/margin_bottom = 2
+
+[node name="VBoxContainer" type="VBoxContainer" parent="CanvasLayer/Ship Dev HUD/SafeArea (MarginContainer)/Rows (VBoxContainer)/BottomRow (HBoxContainer)/Inputs (PanelContainer)/MarginContainer"]
+layout_mode = 2
+theme_override_constants/separation = 4
+
+[node name="Heading" type="Label" parent="CanvasLayer/Ship Dev HUD/SafeArea (MarginContainer)/Rows (VBoxContainer)/BottomRow (HBoxContainer)/Inputs (PanelContainer)/MarginContainer/VBoxContainer"]
+layout_mode = 2
+size_flags_vertical = 0
+theme = ExtResource("7_qkffo")
+theme_override_font_sizes/font_size = 12
+text = "Inputs"
+
+[node name="GridContainer" type="GridContainer" parent="CanvasLayer/Ship Dev HUD/SafeArea (MarginContainer)/Rows (VBoxContainer)/BottomRow (HBoxContainer)/Inputs (PanelContainer)/MarginContainer/VBoxContainer"]
+layout_mode = 2
+size_flags_vertical = 0
+theme_override_constants/v_separation = 0
+columns = 2
+
+[node name="KeyThrottle" type="Label" parent="CanvasLayer/Ship Dev HUD/SafeArea (MarginContainer)/Rows (VBoxContainer)/BottomRow (HBoxContainer)/Inputs (PanelContainer)/MarginContainer/VBoxContainer/GridContainer"]
+layout_mode = 2
+theme = ExtResource("7_qkffo")
+text = "THROT:"
+
+[node name="ValueThrottle" type="Label" parent="CanvasLayer/Ship Dev HUD/SafeArea (MarginContainer)/Rows (VBoxContainer)/BottomRow (HBoxContainer)/Inputs (PanelContainer)/MarginContainer/VBoxContainer/GridContainer"]
+layout_mode = 2
+text = "0.0"
+script = ExtResource("8_1ld6v")
+
+[node name="KeyAim" type="Label" parent="CanvasLayer/Ship Dev HUD/SafeArea (MarginContainer)/Rows (VBoxContainer)/BottomRow (HBoxContainer)/Inputs (PanelContainer)/MarginContainer/VBoxContainer/GridContainer"]
+layout_mode = 2
+theme = ExtResource("7_qkffo")
+text = "AIM:"
+
+[node name="ValueAim" type="Label" parent="CanvasLayer/Ship Dev HUD/SafeArea (MarginContainer)/Rows (VBoxContainer)/BottomRow (HBoxContainer)/Inputs (PanelContainer)/MarginContainer/VBoxContainer/GridContainer"]
+layout_mode = 2
+text = "(0.0,0.0,0.0)"
+script = ExtResource("8_lvomh")
+
+[node name="Transforms (PanelContainer)" type="PanelContainer" parent="CanvasLayer/Ship Dev HUD/SafeArea (MarginContainer)/Rows (VBoxContainer)/BottomRow (HBoxContainer)"]
+layout_mode = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_5pr0d")
+script = ExtResource("9_s25w7")
+
+[node name="MarginContainer" type="MarginContainer" parent="CanvasLayer/Ship Dev HUD/SafeArea (MarginContainer)/Rows (VBoxContainer)/BottomRow (HBoxContainer)/Transforms (PanelContainer)"]
+layout_mode = 2
+theme_override_constants/margin_left = 6
+theme_override_constants/margin_top = 2
+theme_override_constants/margin_right = 6
+theme_override_constants/margin_bottom = 2
+
+[node name="VBoxContainer" type="VBoxContainer" parent="CanvasLayer/Ship Dev HUD/SafeArea (MarginContainer)/Rows (VBoxContainer)/BottomRow (HBoxContainer)/Transforms (PanelContainer)/MarginContainer"]
+layout_mode = 2
+theme_override_constants/separation = 4
+
+[node name="Heading" type="Label" parent="CanvasLayer/Ship Dev HUD/SafeArea (MarginContainer)/Rows (VBoxContainer)/BottomRow (HBoxContainer)/Transforms (PanelContainer)/MarginContainer/VBoxContainer"]
+layout_mode = 2
+size_flags_vertical = 0
+theme = ExtResource("7_qkffo")
+theme_override_font_sizes/font_size = 12
+text = "Transforms"
+
+[node name="GridContainer" type="GridContainer" parent="CanvasLayer/Ship Dev HUD/SafeArea (MarginContainer)/Rows (VBoxContainer)/BottomRow (HBoxContainer)/Transforms (PanelContainer)/MarginContainer/VBoxContainer"]
+layout_mode = 2
+size_flags_vertical = 0
+theme_override_constants/v_separation = 0
+columns = 2
+
+[node name="KeyPosition" type="Label" parent="CanvasLayer/Ship Dev HUD/SafeArea (MarginContainer)/Rows (VBoxContainer)/BottomRow (HBoxContainer)/Transforms (PanelContainer)/MarginContainer/VBoxContainer/GridContainer"]
+layout_mode = 2
+theme = ExtResource("7_qkffo")
+text = "POS:"
+
+[node name="ValuePosition" type="Label" parent="CanvasLayer/Ship Dev HUD/SafeArea (MarginContainer)/Rows (VBoxContainer)/BottomRow (HBoxContainer)/Transforms (PanelContainer)/MarginContainer/VBoxContainer/GridContainer"]
+layout_mode = 2
+text = "0.0"
+
+[node name="KeyRotation" type="Label" parent="CanvasLayer/Ship Dev HUD/SafeArea (MarginContainer)/Rows (VBoxContainer)/BottomRow (HBoxContainer)/Transforms (PanelContainer)/MarginContainer/VBoxContainer/GridContainer"]
+layout_mode = 2
+theme = ExtResource("7_qkffo")
+text = "ROT:"
+
+[node name="ValueRotation" type="Label" parent="CanvasLayer/Ship Dev HUD/SafeArea (MarginContainer)/Rows (VBoxContainer)/BottomRow (HBoxContainer)/Transforms (PanelContainer)/MarginContainer/VBoxContainer/GridContainer"]
+layout_mode = 2
+text = "(0.0,0.0,0.0)"
+
+[node name="KeyLinearVelocity" type="Label" parent="CanvasLayer/Ship Dev HUD/SafeArea (MarginContainer)/Rows (VBoxContainer)/BottomRow (HBoxContainer)/Transforms (PanelContainer)/MarginContainer/VBoxContainer/GridContainer"]
+layout_mode = 2
+text = "LINVEL:"
+
+[node name="ValueLinearVelocity" type="Label" parent="CanvasLayer/Ship Dev HUD/SafeArea (MarginContainer)/Rows (VBoxContainer)/BottomRow (HBoxContainer)/Transforms (PanelContainer)/MarginContainer/VBoxContainer/GridContainer"]
+layout_mode = 2
+text = "(0,0,0)"
+
+[node name="KeyAngularVelocity" type="Label" parent="CanvasLayer/Ship Dev HUD/SafeArea (MarginContainer)/Rows (VBoxContainer)/BottomRow (HBoxContainer)/Transforms (PanelContainer)/MarginContainer/VBoxContainer/GridContainer"]
+layout_mode = 2
+text = "ANGVEL:"
+
+[node name="ValueAngularVelocity" type="Label" parent="CanvasLayer/Ship Dev HUD/SafeArea (MarginContainer)/Rows (VBoxContainer)/BottomRow (HBoxContainer)/Transforms (PanelContainer)/MarginContainer/VBoxContainer/GridContainer"]
+layout_mode = 2
+text = "(0,0,0)"
+
+[node name="AimDisplay" type="Control" parent="CanvasLayer"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
 script = ExtResource("7_mylo6")
 
-[node name="DebugLabel" type="Label" parent="Hud"]
+[node name="DebugLabel" type="Label" parent="CanvasLayer"]
 offset_right = 40.0
 offset_bottom = 23.0
 theme_override_font_sizes/font_size = 10
+text = "Debug Label"
+
+[node name="Control" type="Control" parent="CanvasLayer"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="SpeedIndicator" type="Control" parent="CanvasLayer/Control"]
+layout_mode = 1
+anchors_preset = 5
+anchor_left = 0.5
+anchor_right = 0.5
+offset_left = -213.5
+offset_top = 32.0
+offset_right = 213.5
+offset_bottom = 136.0
+grow_horizontal = 2
+size_flags_horizontal = 4
+size_flags_vertical = 4
+script = ExtResource("11_htaed")
+color = Color(0.851, 0.949, 1, 0.5)
+
+[node name="Cockpit" type="Node3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.61186767, 4.0213118)
+
+[node name="PilotCamera" type="Camera3D" parent="Cockpit"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2.818359, -2.7845945)
+
+[node name="CockpitMesh" type="Node3D" parent="Cockpit"]
+transform = Transform3D(0.4, 0, 0, 0, 0.4, 0, 0, 0, 0.4, 0, 2.0264387, -3.5636835)
+visible = false
+
+[node name="Console_001" type="MeshInstance3D" parent="Cockpit/CockpitMesh"]
+transform = Transform3D(1, 0, 0, 0, 0.32991552, 0, 0, 0, 1, 7.947287e-08, 0.10997185, 3.1287453)
+mesh = SubResource("ArrayMesh_ayvq5")
+skeleton = NodePath("")
+
+[node name="Bottom_001" type="MeshInstance3D" parent="Cockpit/CockpitMesh"]
+transform = Transform3D(1, 0, 0, 0, 0.32991552, 0, 0, 0, 1, 1.70299e-08, -0.6954856, 3.6492834)
+mesh = SubResource("ArrayMesh_f0fi7")
+skeleton = NodePath("")
+
+[node name="Top_001" type="MeshInstance3D" parent="Cockpit/CockpitMesh"]
+transform = Transform3D(1, 0, 0, 0, 0.32991555, 0, 0, 0, 1, 2.6490955e-08, 2.7713313, 3.3607302)
+mesh = SubResource("ArrayMesh_at8hy")
+skeleton = NodePath("")
+
+[node name="Plane" type="MeshInstance3D" parent="Cockpit/CockpitMesh"]
+transform = Transform3D(3.5894752, 0, 0, 0, -4.2789878e-07, 2.4292233, 0, -3.589475, -2.89586e-07, 0, 0.6844994, 6.9901295)
+mesh = SubResource("ArrayMesh_7mutq")
+skeleton = NodePath("")
+
+[node name="Inputs" type="Node" parent="."]
+
+[node name="Aim" type="Node" parent="Inputs"]
+script = ExtResource("5_sshk3")
+
+[node name="Throttle" type="Node" parent="Inputs"]
+script = ExtResource("9_qkffo")
+
+[node name="CanvasLayer2" type="CanvasLayer" parent="."]
+
+[connection signal="strength_changed" from="Inputs/Throttle" to="CanvasLayer/Ship Dev HUD/SafeArea (MarginContainer)/Rows (VBoxContainer)/BottomRow (HBoxContainer)/Inputs (PanelContainer)/MarginContainer/VBoxContainer/GridContainer/ValueThrottle" method="_on_throttle_strength_changed"]

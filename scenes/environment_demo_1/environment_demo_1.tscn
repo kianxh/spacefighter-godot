@@ -1,0 +1,29 @@
+[gd_scene load_steps=5 format=3 uid="uid://dupplehyy7gg8"]
+
+[ext_resource type="Texture2D" uid="uid://bxqrgsq7l45oi" path="res://assets/textures/sky/white_local_star_1.png" id="1_5fvw1"]
+
+[sub_resource type="PanoramaSkyMaterial" id="PanoramaSkyMaterial_aed1m"]
+panorama = ExtResource("1_5fvw1")
+
+[sub_resource type="Sky" id="Sky_hgb7g"]
+sky_material = SubResource("PanoramaSkyMaterial_aed1m")
+
+[sub_resource type="Environment" id="Environment_gew3h"]
+background_mode = 2
+sky = SubResource("Sky_hgb7g")
+sky_rotation = Vector3(0, 0.43633232, 0.2617994)
+ambient_light_color = Color(1, 1, 1, 1)
+ambient_light_sky_contribution = 0.8
+ambient_light_energy = 0.1
+tonemap_mode = 2
+glow_enabled = true
+
+[node name="EnvironmentDemo1" type="Node3D"]
+
+[node name="DirectionalLight3D" type="DirectionalLight3D" parent="."]
+transform = Transform3D(-0.42261833, -0.23456971, 0.87542605, 0, 0.9659258, 0.25881904, -0.90630776, 0.10938167, -0.40821797, 0, 0, 0)
+shadow_enabled = true
+directional_shadow_max_distance = 1.0
+
+[node name="WorldEnvironment" type="WorldEnvironment" parent="."]
+environment = SubResource("Environment_gew3h")

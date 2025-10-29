@@ -1,0 +1,60 @@
+[gd_scene load_steps=10 format=3 uid="uid://bc08hwme6j6ge"]
+
+[ext_resource type="PackedScene" uid="uid://dupplehyy7gg8" path="res://scenes/environment_demo_1/environment_demo_1.tscn" id="1_ulwsm"]
+[ext_resource type="Script" uid="uid://02aqtljk11lr" path="res://scenes/implementation_test_throttled_rigid_body/throttled_rigid_body.gd" id="2_wvfpv"]
+[ext_resource type="Script" uid="uid://cfs6wb2w1rrwn" path="res://scenes/implementation_test_throttled_rigid_body/lines.gd" id="3_dfhq0"]
+[ext_resource type="Script" uid="uid://dlkb8pn7orvwp" path="res://scenes/implementation_test_throttled_rigid_body/label.gd" id="3_s4grw"]
+[ext_resource type="Script" uid="uid://d13eu2fccjtk3" path="res://scenes/implementation_test_throttled_rigid_body/line_3d.gd" id="4_vb2i2"]
+
+[sub_resource type="BoxMesh" id="BoxMesh_wvfpv"]
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_s4grw"]
+
+[sub_resource type="ImmediateMesh" id="ImmediateMesh_dfhq0"]
+
+[sub_resource type="CylinderMesh" id="CylinderMesh_dfhq0"]
+top_radius = 0.01
+bottom_radius = 0.01
+
+[node name="ImplementationTestThrottledRigidBody" type="Node3D"]
+
+[node name="EnvironmentDemo1" parent="." instance=ExtResource("1_ulwsm")]
+
+[node name="RigidBody3D" type="RigidBody3D" parent="."]
+gravity_scale = 0.0
+linear_damp = 0.3
+script = ExtResource("2_wvfpv")
+applied_force = Vector3(0, 0, -100)
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="RigidBody3D"]
+mesh = SubResource("BoxMesh_wvfpv")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="RigidBody3D"]
+shape = SubResource("BoxShape3D_s4grw")
+
+[node name="Camera3D" type="Camera3D" parent="RigidBody3D"]
+transform = Transform3D(-4.371139e-08, 0, 1, 0, 1, 0, -1, 0, -4.371139e-08, 5.2645698, 0, -2.3012166e-07)
+
+[node name="CanvasLayer" type="CanvasLayer" parent="."]
+
+[node name="Label" type="Label" parent="CanvasLayer"]
+offset_right = 40.0
+offset_bottom = 23.0
+script = ExtResource("3_s4grw")
+
+[node name="LinesDrawer" type="Node3D" parent="."]
+script = ExtResource("3_dfhq0")
+count = 17
+
+[node name="TemplateLine" type="MeshInstance3D" parent="LinesDrawer"]
+transform = Transform3D(1, 0, 0, 0, 0.9985348, 0.054113667, 0, -0.054113667, 0.9985348, -2, 0, 0)
+top_level = true
+visible = false
+mesh = SubResource("ImmediateMesh_dfhq0")
+script = ExtResource("4_vb2i2")
+a = Vector3(0, -1, 0)
+b = Vector3(0, 1, 0)
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="LinesDrawer"]
+visible = false
+mesh = SubResource("CylinderMesh_dfhq0")
